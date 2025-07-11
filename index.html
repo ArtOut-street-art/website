@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ArtOut — Map the Street</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-image: url('https://images.unsplash.com/photo-1579783900882-c0d3dad7b119');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Open Sans', sans-serif;
+      }
+      h1, h2 {
+        font-family: 'Rubik Mono One', sans-serif;
+      }
+      .backdrop {
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+    </style>
+  </head>
+  <body class="text-white">
+
+    <div class="min-h-screen backdrop px-6 py-12">
+      <!-- Header -->
+      <header class="text-center mb-16">
+        <h1 class="text-5xl md:text-6xl mb-4 tracking-tight">🎨 ART<span class="text-pink-500">OUT</span></h1>
+        <p class="text-xl max-w-xl mx-auto text-gray-200">A global map of real-time street art. Snap it. Tag it. Share it.</p>
+      </header>
+
+      <!-- Features -->
+      <section class="max-w-5xl mx-auto space-y-12">
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 class="text-3xl mb-3">📍 Real-Time Geotagging</h2>
+            <p class="text-gray-300">
+              Snap live photos — no uploads. ArtOut captures your location and tags city, street, and country automatically.
+            </p>
+          </div>
+          <img src="https://images.unsplash.com/photo-1589308078052-964664d93dc0" class="rounded-xl shadow-lg" alt="Geotag example" />
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+          <img src="https://images.unsplash.com/photo-1599423300746-b62533397364" class="rounded-xl shadow-lg" alt="Street art" />
+          <div>
+            <h2 class="text-3xl mb-3">🌍 A Living Global Map</h2>
+            <p class="text-gray-300">
+              Discover art around the world, one tag at a time. From Melbourne laneways to New York rooftops.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 class="text-3xl mb-3">🖌️ Preserve the Ephemeral</h2>
+            <p class="text-gray-300">
+              Street art fades. Buildings change. ArtOut documents the moment and keeps it alive for everyone.
+            </p>
+          </div>
+          <img src="https://images.unsplash.com/photo-1520962911608-652d5eb8ae6d" class="rounded-xl shadow-lg" alt="Urban graffiti" />
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <footer class="text-center mt-20">
+        <h2 class="text-4xl mb-4">Ready to Map the Street?</h2>
+        <p class="mb-6 text-gray-300">Join the global movement. Discover, preserve, and share creativity in the wild.</p>
+        <button class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg">
+          🚀 Get Started
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>
