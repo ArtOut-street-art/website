@@ -24,7 +24,7 @@ export default function Contact() {
         </p>
         <a
           className="inline-block bg-pink-600 text-white font-sunda font-bold px-8 py-3 rounded-full shadow-lg hover:bg-yellow-400 hover:text-black transition-colors duration-300 text-lg mb-4"
-          href="https://www.linkedin.com/company/artout"
+          href="https://www.linkedin.com/company/artout-app/about/"
           target="_blank"
           rel="noopener noreferrer"
         >
