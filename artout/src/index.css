@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Add Bricks font for "ArtOut" branding */
+@font-face {
+  font-family: 'Bricks';
+  src: url('/fonts/Goldsaber.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-artout {
+  font-family: 'Bricks', cursive, sans-serif !important;
+  letter-spacing: 0.4em;
+  font-weight: 90;
+  font-size: 3.5rem; 
+  line-height: 2.1;
+  text-shadow: 2px 4px 12px rgba(0,0,0,0.18), 0 1px 0 #fff;
+}
+
+
+body {
+  background-image: url('/images/bg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+html { scroll-behavior: smooth; }
+
+
+@keyframes floatMove {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(var(--angle, 0deg));
+  }
+  50% {
+    transform: translate(var(--x-move, 20px), -30px) scale(1.08) rotate(var(--angle, 0deg));
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(var(--angle, 0deg));
+  }
+}
+.animate-float-move {
+  animation-name: floatMove;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
