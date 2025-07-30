@@ -3,10 +3,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Trigger on pushes to main branch
+      - main # Runs when you push to main
 
 permissions:
-  contents: write # Needed to push to gh-pages branch
+  contents: write # Needed for Pages deployment
 
 jobs:
   build-and-deploy:
@@ -33,4 +33,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
-          keep_files: true
+          keep_files: false
