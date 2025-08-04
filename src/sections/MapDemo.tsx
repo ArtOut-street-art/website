@@ -1,9 +1,9 @@
-import React from "react";
+// @ts-expect-error: No type declarations for leaflet in this project
+import L from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 
-// Use local images for markers/popups
+// Example street art locations in Melbourne CBD with local images
 const streetArtLocations = [
   {
     name: "Hosier Lane",
@@ -31,7 +31,7 @@ const streetArtLocations = [
   },
 ];
 
-// Use a standard pin icon for all markers
+// Use a proper marker icon (e.g., a colored pin or spray can)
 const pinIcon = new L.Icon({
   iconUrl:
     "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/images/marker-icon.png",
@@ -68,7 +68,7 @@ export default function MapDemo() {
           on pins to view art, artists, and details. You can add your own art by
           snapping a photo and letting ArtOut geotag it automatically!
         </p>
-        <div className="w-full h-[200px] xs:h-[260px] sm:h-[400px] md:h-[600px] rounded-xl overflow-hidden shadow-lg border-4 border-yellow-400 bg-black flex items-center justify-center">
+        <div className="w-full h-[400px] md:h-[600px] rounded-xl overflow-hidden shadow-lg border-4 border-yellow-400 bg-black flex items-center justify-center">
           <MapContainer
             center={[-37.8105, 144.9631]}
             zoom={15}
@@ -81,13 +81,17 @@ export default function MapDemo() {
             <TileLayer
               attribution='© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWF1cnlhMzYwIiwiYSI6ImNrZDhjbmswdzBwM20ycXRnNW8zczYzd3MifQ.i--yysqANhdYd0xtQQATUA"
-              tileSize={512}
+              tileSize={512 as any}
               zoomOffset={-1}
             />
             {streetArtLocations.map((loc) => (
-              <Marker key={loc.name} position={loc.position} icon={pinIcon}>
+              <Marker
+                key={loc.name}
+                position={loc.position as [number, number]}
+                icon={pinIcon as L.Icon}
+              >
                 <Popup>
-                  <div style={{ minWidth: 120, maxWidth: 160 }}>
+                  <div style={{ minWidth: 180 }}>
                     <strong>{loc.name}</strong>
                     <br />
                     <img
@@ -95,15 +99,11 @@ export default function MapDemo() {
                       alt={loc.name}
                       style={{
                         width: "100%",
-                        maxWidth: 140,
                         borderRadius: 8,
                         margin: "8px 0",
-                        display: "block",
-                        height: "auto",
-                        objectFit: "cover",
                       }}
                     />
-                    <span className="text-xs">{loc.desc}</span>
+                    <span className="text-sm">{loc.desc}</span>
                   </div>
                 </Popup>
               </Marker>

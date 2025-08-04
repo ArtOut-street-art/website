@@ -6,6 +6,7 @@ import Gallery from "./sections/Gallery.tsx";
 import Contact from "./sections/Contact.tsx";
 import Footer from "./sections/Footer.tsx";
 import MapDemo from "./sections/MapDemo.tsx";
+import MobileAppShowcase from "./sections/MobileAppShowcase.tsx";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Features />
         <About />
         <Gallery />
+        <MobileAppShowcase />
         <Contact />
         <Footer />
         <MapDemo />
