@@ -9,12 +9,22 @@
   font-display: swap;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .xs\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+  .xs\:text-5xl { font-size: 3rem; line-height: 1; }
+  .xs\:max-w-md { max-width: 20rem; }
+}
+
 .font-artout {
   font-family: 'Bricks', cursive, sans-serif !important;
-  letter-spacing: 0.4em;
-  font-weight: 90;
-  font-size: 3.5rem; 
-  line-height: 2.1;
+  letter-spacing: 0.2em;
+  font-weight: 900;
+  font-size: inherit;
+  line-height: 1.1;
   text-shadow: 2px 4px 12px rgba(0,0,0,0.18), 0 1px 0 #fff;
 }
 

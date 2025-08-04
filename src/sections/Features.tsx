@@ -1,15 +1,15 @@
 export default function Features() {
   return (
     <section id="features" className="py-20">
-      <div className="max-w-7xl mx-auto px-4 text-center">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 text-center">
         <h2
-          className="text-5xl font-artout font-extrabold mb-12 text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 via-pink-400 to-indigo-400 drop-shadow tracking-tight"
+          className="text-3xl xs:text-4xl sm:text-5xl font-artout font-extrabold mb-8 sm:mb-12 text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 via-pink-400 to-indigo-400 drop-shadow tracking-tight"
           style={{ letterSpacing: "0.04em" }}
         >
           Features
         </h2>
         {/* Feature/benefit blocks */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
           <div className="bg-[#23232b] rounded-2xl shadow-lg p-6 flex flex-col items-center">
             <span className="text-3xl mb-2">📍</span>
             <h3 className="text-xl font-bold text-yellow-400 mb-2">
@@ -23,7 +23,7 @@ export default function Features() {
             <img
               src="/images/gallery1.jpg"
               alt="Geotag example"
-              className="rounded-lg mt-4 w-full h-32 object-cover"
+              className="rounded-lg mt-4 w-full h-24 xs:h-28 sm:h-32 object-cover"
             />
           </div>
           <div className="bg-[#23232b] rounded-2xl shadow-lg p-6 flex flex-col items-center">
@@ -40,7 +40,7 @@ export default function Features() {
             <img
               src="/images/gallery2.jpg"
               alt="Street art"
-              className="rounded-lg mt-4 w-full h-32 object-cover"
+              className="rounded-lg mt-4 w-full h-24 xs:h-28 sm:h-32 object-cover"
             />
           </div>
           <div className="bg-[#23232b] rounded-2xl shadow-lg p-6 flex flex-col items-center">
@@ -56,7 +56,7 @@ export default function Features() {
             <img
               src="/images/gallery3.jpg"
               alt="Urban graffiti"
-              className="rounded-lg mt-4 w-full h-32 object-cover"
+              className="rounded-lg mt-4 w-full h-24 xs:h-28 sm:h-32 object-cover"
             />
           </div>
         </div>
