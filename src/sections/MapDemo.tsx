@@ -1,10 +1,13 @@
-// @ts-expect-error: No type declarations for leaflet in this project
-import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useEffect, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 
-// Example street art locations in Melbourne CBD with local images
-const streetArtLocations = [
+// Street art locations with local images
+const streetArtLocations: {
+  name: string;
+  position: [number, number];
+  image: string;
+  desc: string;
+}[] = [
   {
     name: "Hosier Lane",
     position: [-37.816563, 144.969021],
@@ -31,28 +34,38 @@ const streetArtLocations = [
   },
 ];
 
-// Use a proper marker icon (e.g., a colored pin or spray can)
-const pinIcon = new L.Icon({
-  iconUrl:
-    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconRetinaUrl:
-    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowUrl:
-    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/images/marker-shadow.png",
-  shadowSize: [41, 41],
-  shadowAnchor: [13, 41],
-  className: "art-marker-icon",
-});
-
 export default function MapDemo() {
-  // Melbourne CBD bounds (roughly)
-  const bounds: [[number, number], [number, number]] = [
-    [-37.825, 144.955], // Southwest
-    [-37.805, 144.98], // Northeast
-  ];
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Dynamically import Leaflet to avoid SSR issues
+    import("leaflet").then((L) => {
+      // Only initialize if not already done
+      if (mapRef.current && !(window as any)._artoutMap) {
+        const map = L.map(mapRef.current).setView([-37.8105, 144.9631], 15);
+
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        }).addTo(map);
+
+        streetArtLocations.forEach((loc) => {
+          const marker = L.marker(loc.position).addTo(map);
+          marker.bindPopup(
+            `<div style="min-width:180px">
+              <strong>${loc.name}</strong><br/>
+              <img src="${loc.image}" alt="${loc.name}" style="width:100%;border-radius:8px;margin:8px 0"/>
+              <span style="font-size:0.95em">${loc.desc}</span>
+            </div>`
+          );
+        });
+
+        // Save to window to prevent re-initialization
+        (window as any)._artoutMap = map;
+      }
+    });
+  }, []);
 
   return (
     <section id="map" className="py-20 bg-[#23232b]">
@@ -69,52 +82,12 @@ export default function MapDemo() {
           snapping a photo and letting ArtOut geotag it automatically!
         </p>
         <div className="w-full h-[400px] md:h-[600px] rounded-xl overflow-hidden shadow-lg border-4 border-yellow-400 bg-black flex items-center justify-center">
-          <MapContainer
-            center={[-37.8105, 144.9631]}
-            zoom={15}
-            scrollWheelZoom={true}
+          <div
+            id="map"
+            ref={mapRef}
             style={{ width: "100%", height: "100%" }}
-            attributionControl={false}
-            maxBounds={bounds}
-            maxBoundsViscosity={1.0}
-          >
-            <TileLayer
-              attribution='© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWF1cnlhMzYwIiwiYSI6ImNrZDhjbmswdzBwM20ycXRnNW8zczYzd3MifQ.i--yysqANhdYd0xtQQATUA"
-              tileSize={512 as any}
-              zoomOffset={-1}
-            />
-            {streetArtLocations.map((loc) => (
-              <Marker
-                key={loc.name}
-                position={loc.position as [number, number]}
-                icon={pinIcon as L.Icon}
-              >
-                <Popup>
-                  <div style={{ minWidth: 180 }}>
-                    <strong>{loc.name}</strong>
-                    <br />
-                    <img
-                      src={loc.image}
-                      alt={loc.name}
-                      style={{
-                        width: "100%",
-                        borderRadius: 8,
-                        margin: "8px 0",
-                      }}
-                    />
-                    <span className="text-sm">{loc.desc}</span>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+          />
         </div>
-        <style>{`
-          .leaflet-control-attribution {
-            display: none !important;
-          }
-        `}</style>
         <p className="text-center text-gray-400 mt-4 text-sm">
           (Demo map. Locations and images are for illustration only.)
         </p>

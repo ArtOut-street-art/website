@@ -1,5 +1,3 @@
-import React from "react";
-
 const mobileAppImages = [
   // Replace these URLs with direct image links from your LinkedIn posts or your /images folder
   "https://media.licdn.com/dms/image/D4E22AQF7Qn6kQw8w9g/feedshare-shrink_800/0/1717430000000?e=1721865600&v=beta&t=example1",

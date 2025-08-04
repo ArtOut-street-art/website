@@ -8,11 +8,6 @@
   font-style: normal;
   font-display: swap;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer utilities {
   .xs\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
   .xs\:text-5xl { font-size: 3rem; line-height: 1; }
