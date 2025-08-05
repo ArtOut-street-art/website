@@ -11,43 +11,37 @@ const streetArtLocations: {
   {
     name: "Tattersalls Lane",
     position: [-37.807972, 144.965355],
-    image:
-      "https://cdn.visitvictoria.com/sites/default/files/styles/uncropped_responsive/public/2022-09/Tattersalls-Lane-Melbourne-Street-Art-Ain-Raadik-112572-1.jpg",
+    image: "/images/tattersalls-lane.jpg",
     desc: "Take in the beloved stretch of asphalt that links Chinatown with Lonsdale Street, boasting a mix of old-school eateries, street art and dive bars.",
   },
   {
     name: "Centre Place",
     position: [-37.817543, 144.965331],
-    image:
-      "https://cdn.visitvictoria.com/sites/default/files/styles/uncropped_responsive/public/2022-09/Centre-Place-Melbourne-Street-Art-Robert-Blackburn-099785-3.jpg",
+    image: "/images/centre-place.jpg",
     desc: "Melbourne's quintessential laneway—Centre Place surprises and delights with wild street art, boutiques, and buzzing cafes.",
   },
   {
     name: "Blender Lane",
     position: [-37.810668, 144.953315],
-    image:
-      "https://cdn.visitvictoria.com/sites/default/files/styles/uncropped_responsive/public/2022-09/Blender-Lane-Melbourne-Street-Art-093891-56.jpg",
+    image: "/images/blender-lane.jpg",
     desc: "Discover a spectacle of colourful street art with stencils, murals, tags and paste-ups covering every surface.",
   },
   {
     name: "Duckboard Place",
     position: [-37.817187, 144.969099],
-    image:
-      "https://cdn.visitvictoria.com/sites/default/files/styles/uncropped_responsive/public/2022-09/Duckboard-Place-Melbourne-Street-Art-Robert-Blackburn-112580-2.jpg",
+    image: "/images/duckboard-place.jpg",
     desc: "Once a haunt for WWII troops, now a chic playground for foodies, wine lovers, and artists with ever-changing street art.",
   },
   {
     name: "Hosier Lane",
     position: [-37.816563, 144.969021],
-    image:
-      "https://cdn.visitvictoria.com/sites/default/files/styles/uncropped_responsive/public/2022-09/Hosier-Lane-Melbourne-Street-Art-Tres-Cinco-112569-3.jpg",
+    image: "/images/hosier-lane.jpg",
     desc: "Wander down this iconic bluestone laneway and take in a dizzying array of colours and characters by local and international street artists.",
   },
   {
     name: "Union Lane",
     position: [-37.814857, 144.965356],
-    image:
-      "https://cdn.visitvictoria.com/sites/default/files/styles/uncropped_responsive/public/2022-09/Union-Lane-Melbourne-Street-Art-Ray-Reyes-112575-2.jpg",
+    image: "/images/union-lane.jpg",
     desc: "Step away from the bustling Bourke Street Mall and into Union Lane, a much-loved street-art 'gallery' that cuts through to Little Collins Street.",
   },
 ];
