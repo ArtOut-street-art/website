@@ -4,7 +4,6 @@
 @font-face {
   font-family: 'Bricks';
   src: url('/fonts/Goldsaber.otf') format('opentype');
-  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
@@ -16,11 +15,9 @@
 
 .font-artout {
   font-family: 'Bricks', cursive, sans-serif !important;
-  letter-spacing: 0.2em;
-  font-weight: 900;
-  font-size: inherit;
+  letter-spacing: 0.08em;
   line-height: 1.1;
-  text-shadow: 2px 4px 12px rgba(0,0,0,0.18), 0 1px 0 #fff;
+  font-weight: 0;
 }
 
 
@@ -29,7 +26,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
+  min-height: 10vh;
   font-family: 'Inter', 'Open Sans', Arial, sans-serif;
 }
 html { scroll-behavior: smooth; }

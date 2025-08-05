@@ -3,11 +3,27 @@ export default function Gallery() {
     <section id="gallery" className="py-12 bg-[#18181b]">
       <div className="max-w-6xl mx-auto px-4">
         <h2
-          className="text-5xl md:text-6xl font-bold mb-6 text-yellow-400 drop-shadow tracking-tight text-center"
-          style={{ textShadow: "2px 2px 8px #000" }}
+          className="text-6xl md:text-7xl font-bold mb-6 text-white drop-shadow tracking-tight text-center"
+          style={{ textShadow: "3px 3px 12px #000", letterSpacing: "0.04em" }}
         >
-          Street Art Gallery
+          StreetArt Gallery
         </h2>
+        <p className="text-lg md:text-xl text-gray-200 text-center mb-8 max-w-2xl mx-auto font-sunda">
+          Browse a curated collection of the world’s most vibrant street art.
+          Use the slideshow to see featured works, or scroll down for more. Save
+          your favourites and share them with friends!
+        </p>
+        {/* Slideshow */}
+        <div className="w-full flex justify-center mb-8">
+          {/* Replace with a real slideshow/carousel if you wish */}
+          <div className="rounded-xl overflow-hidden shadow-lg border-4 border-pink-400 w-full max-w-xl">
+            <img
+              src="/images/gallery1.jpg"
+              alt="Featured Urban Floral Mural"
+              className="object-cover w-full h-64"
+            />
+          </div>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
           {(
             [
@@ -44,7 +60,7 @@ export default function Gallery() {
             </div>
           ))}
         </div>
-        <p className="mt-4 sm:mt-6 text-center text-gray-500 text-base sm:text-lg font-akadylan">
+        <p className="mt-6 text-center text-gray-500 text-lg font-akadylan">
           More coming soon. Want your art featured?{" "}
           <a
             href="#contact"

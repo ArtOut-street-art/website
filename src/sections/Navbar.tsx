@@ -5,10 +5,10 @@ export default function Navbar() {
 
   return (
     <nav className="bg-[#18181b] border-b border-gray-800 shadow-lg sticky top-0 z-50 transition-all duration-300">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4 sm:py-4 sm:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-1.5 px-4 sm:py-2 sm:px-8 lg:px-12">
         <a href="#home" className="flex items-center gap-2">
-          <span className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] text-white font-artout drop-shadow leading-none">
-            ArtOut
+          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white font-artout drop-shadow leading-none">
+            artOut
           </span>
         </a>
         <button

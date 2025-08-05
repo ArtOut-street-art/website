@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Street art locations with local images (longitude, latitude)
+// Improved street art locations with local images and engaging descriptions
 const streetArtLocations: {
   name: string;
   position: [number, number];
@@ -12,37 +12,37 @@ const streetArtLocations: {
     name: "Tattersalls Lane",
     position: [-37.807972, 144.965355],
     image: "/images/tattersalls-lane.jpg",
-    desc: "Take in the beloved stretch of asphalt that links Chinatown with Lonsdale Street, boasting a mix of old-school eateries, street art and dive bars.",
+    desc: "A vibrant laneway bursting with color, home to ever-changing murals, hidden bars, and authentic Asian eateries.",
   },
   {
     name: "Centre Place",
     position: [-37.817543, 144.965331],
     image: "/images/centre-place.jpg",
-    desc: "Melbourne's quintessential laneway—Centre Place surprises and delights with wild street art, boutiques, and buzzing cafes.",
+    desc: "Melbourne’s iconic blue-stone alley, alive with graffiti, indie boutiques, and the aroma of fresh espresso.",
   },
   {
     name: "Blender Lane",
     position: [-37.810668, 144.953315],
     image: "/images/blender-lane.jpg",
-    desc: "Discover a spectacle of colourful street art with stencils, murals, tags and paste-ups covering every surface.",
+    desc: "A hidden gem where artists experiment with stencils, murals, and paste-ups. Blender Lane is a living gallery.",
   },
   {
     name: "Duckboard Place",
     position: [-37.817187, 144.969099],
     image: "/images/duckboard-place.jpg",
-    desc: "Once a haunt for WWII troops, now a chic playground for foodies, wine lovers, and artists with ever-changing street art.",
+    desc: "From WWII history to modern murals, Duckboard Place is a canvas for large-scale works and edgy creativity.",
   },
   {
     name: "Hosier Lane",
     position: [-37.816563, 144.969021],
     image: "/images/hosier-lane.jpg",
-    desc: "Wander down this iconic bluestone laneway and take in a dizzying array of colours and characters by local and international street artists.",
+    desc: "Melbourne’s most photographed street art destination. Every inch is covered in color and characters.",
   },
   {
     name: "Union Lane",
     position: [-37.814857, 144.965356],
     image: "/images/union-lane.jpg",
-    desc: "Step away from the bustling Bourke Street Mall and into Union Lane, a much-loved street-art 'gallery' that cuts through to Little Collins Street.",
+    desc: "A narrow corridor transformed into a graffiti wonderland. Union Lane is a favorite for street artists.",
   },
 ];
 
@@ -50,22 +50,52 @@ export default function MapDemo() {
   return (
     <section
       id="map"
-      className="bg-[#18181b] min-h-[600px] flex flex-col justify-center pt-0 pb-10"
+      className="bg-[#18181b] min-h-[700px] flex flex-col justify-center pt-0 pb-16"
     >
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-6 flex flex-col items-center mt-0">
-        <h2
-          className="text-6xl md:text-7xl font-bold mb-6 text-white drop-shadow tracking-tight text-center"
-          style={{ textShadow: "3px 3px 12px #000", letterSpacing: "0.02em" }}
-        >
+        <h2 className="text-6xl md:text-7xl font-bold text-white text-center tracking-tight mb-6">
           Explore the Map
         </h2>
-        <p className="text-lg md:text-xl text-white text-center mb-6 max-w-2xl mx-auto">
-          See street art locations around Melbourne Central in real time. Click
-          on pins to view art, artists, and details. You can add your own art by
-          snapping a photo and letting ArtOut geotag it automatically!
+        <p className="text-lg md:text-xl text-gray-200 text-center mb-8 max-w-3xl mx-auto font-sunda">
+          Discover Melbourne’s legendary street art scene. Tap a pin to reveal
+          the story behind each mural, or use our guided tour and artist
+          explorer to make the most of your visit.
         </p>
+        <div className="w-full flex flex-col md:flex-row gap-8 mb-10">
+          <div className="bg-gradient-to-br from-yellow-300/20 via-yellow-100/10 to-transparent rounded-2xl shadow-xl p-8 flex-1 text-left border-l-4 border-yellow-400">
+            <h3 className="text-2xl font-artout font-bold text-yellow-400 mb-2 flex items-center gap-2">
+              <span className="text-3xl">🗺️</span> Guided Street Art Tour
+            </h3>
+            <p className="text-gray-200 text-lg">
+              Follow our curated route through Melbourne’s most iconic laneways.
+              Each stop is packed with color, history, and stories from the
+              artists themselves.
+            </p>
+            <a
+              href="#"
+              className="inline-block mt-4 px-6 py-2 rounded-full bg-yellow-400 text-black font-bold shadow hover:bg-yellow-300 transition"
+            >
+              Start Tour
+            </a>
+          </div>
+          <div className="bg-gradient-to-br from-pink-400/20 via-pink-100/10 to-transparent rounded-2xl shadow-xl p-8 flex-1 text-left border-l-4 border-pink-400">
+            <h3 className="text-2xl font-artout font-bold text-pink-400 mb-2 flex items-center gap-2">
+              <span className="text-3xl">🎨</span> Artist Explorer
+            </h3>
+            <p className="text-gray-200 text-lg">
+              Looking for a favorite artist? Filter the map to see all their
+              works, read bios, and get directions to each mural.
+            </p>
+            <a
+              href="#"
+              className="inline-block mt-4 px-6 py-2 rounded-full bg-pink-400 text-white font-bold shadow hover:bg-pink-300 transition"
+            >
+              Browse Artists
+            </a>
+          </div>
+        </div>
         <div
-          className="w-full rounded-xl overflow-hidden shadow-lg border-4 border-yellow-400 bg-black flex items-center justify-center"
+          className="w-full rounded-xl overflow-hidden shadow-2xl border-4 border-yellow-400 bg-black flex items-center justify-center"
           style={{
             minHeight: "500px",
             maxHeight: "700px",
@@ -87,7 +117,14 @@ export default function MapDemo() {
               <Marker key={loc.name} position={loc.position}>
                 <Popup maxWidth={250} minWidth={200}>
                   <div style={{ minWidth: 200, maxWidth: 240 }}>
-                    <strong style={{ fontSize: "16px" }}>{loc.name}</strong>
+                    <strong
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {loc.name}
+                    </strong>
                     <br />
                     <img
                       src={loc.image}
@@ -97,10 +134,17 @@ export default function MapDemo() {
                         height: "150px",
                         objectFit: "cover",
                         borderRadius: "8px",
-                        margin: "8px 0",
+                        margin: "10px 0",
+                        boxShadow: "0 4px 16px rgba(0,0,0,0.25)",
                       }}
                     />
-                    <span style={{ fontSize: "14px", lineHeight: "1.4" }}>
+                    <span
+                      style={{
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                        color: "#000",
+                      }}
+                    >
                       {loc.desc}
                     </span>
                   </div>
@@ -109,8 +153,16 @@ export default function MapDemo() {
             ))}
           </MapContainer>
         </div>
-        <p className="text-center text-gray-400 mt-3 text-sm">
-          (Demo map. Locations and images are for illustration only.)
+        <p className="text-center text-gray-400 mt-5 text-base font-sunda">
+          (Demo map. Locations and images are for illustration only. Want your
+          art featured?{" "}
+          <a
+            href="#contact"
+            className="text-pink-400 underline hover:text-yellow-400 transition-colors font-medium"
+          >
+            Contact us
+          </a>
+          !)
         </p>
       </div>
     </section>

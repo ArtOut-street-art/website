@@ -7,17 +7,18 @@ const mobileAppImages = [
 
 export default function MobileAppShowcase() {
   return (
-    <section id="mobile-app" className="py-20 bg-[#18181b]">
+    <section id="mobile-app" className="py-16 bg-[#18181b]">
       <div className="max-w-5xl mx-auto px-4 text-center">
         <h2
-          className="text-5xl md:text-6xl font-bold mb-6 text-yellow-400 drop-shadow tracking-tight text-center"
-          style={{ textShadow: "2px 2px 8px #000" }}
+          className="text-6xl md:text-7xl font-bold mb-6 text-white drop-shadow tracking-tight text-center"
+          style={{ textShadow: "3px 3px 12px #000", letterSpacing: "0.04em" }}
         >
-          See ArtOut in Action on Mobile
+          ArtOut on Mobile
         </h2>
-        <p className="text-lg text-gray-200 mb-10 max-w-2xl mx-auto">
-          Here’s how the ArtOut app looks and feels on your phone. Snap, tag,
-          and explore street art in real time—wherever you are.
+        <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-sunda">
+          Snap, tag, and explore street art in real time—wherever you are. No
+          sign-in required. Tag art anonymously and see it appear instantly on
+          the map for everyone to discover.
         </p>
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
           {mobileAppImages.map((src, i) => (
