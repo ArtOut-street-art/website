@@ -50,16 +50,16 @@ export default function MapDemo() {
   return (
     <section
       id="map"
-      className="bg-transparent min-h-[350px] flex flex-col justify-center pt-0 pb-10"
+      className="bg-[#18181b] min-h-[600px] flex flex-col justify-center pt-0 pb-10"
     >
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-6 flex flex-col items-center mt-0">
         <h2
-          className="text-5xl md:text-6xl font-bold mb-4 text-yellow-400 text-center font-sunda tracking-tight"
-          style={{ textShadow: "2px 2px 8px #000" }}
+          className="text-6xl md:text-7xl font-bold mb-6 text-white drop-shadow tracking-tight text-center"
+          style={{ textShadow: "3px 3px 12px #000", letterSpacing: "0.02em" }}
         >
           Explore the Map
         </h2>
-        <p className="text-lg md:text-xl text-white text-center mb-4 max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl text-white text-center mb-6 max-w-2xl mx-auto">
           See street art locations around Melbourne Central in real time. Click
           on pins to view art, artists, and details. You can add your own art by
           snapping a photo and letting ArtOut geotag it automatically!
@@ -67,9 +67,9 @@ export default function MapDemo() {
         <div
           className="w-full rounded-xl overflow-hidden shadow-lg border-4 border-yellow-400 bg-black flex items-center justify-center"
           style={{
-            minHeight: "220px",
-            maxHeight: "500px",
-            height: "40vh",
+            minHeight: "500px",
+            maxHeight: "700px",
+            height: "60vh",
           }}
         >
           <MapContainer
@@ -77,7 +77,7 @@ export default function MapDemo() {
             zoom={15}
             style={{ width: "100%", height: "100%" }}
             scrollWheelZoom={true}
-            className="w-full h-[40vh] min-h-[220px] max-h-[500px] rounded-xl"
+            className="w-full h-[60vh] min-h-[500px] max-h-[700px] rounded-xl"
           >
             <TileLayer
               attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -85,16 +85,24 @@ export default function MapDemo() {
             />
             {streetArtLocations.map((loc) => (
               <Marker key={loc.name} position={loc.position}>
-                <Popup>
-                  <div style={{ minWidth: 180 }}>
-                    <strong>{loc.name}</strong>
+                <Popup maxWidth={250} minWidth={200}>
+                  <div style={{ minWidth: 200, maxWidth: 240 }}>
+                    <strong style={{ fontSize: "16px" }}>{loc.name}</strong>
                     <br />
                     <img
                       src={loc.image}
                       alt={loc.name}
-                      className="w-full rounded-lg my-2"
+                      style={{
+                        width: "100%",
+                        height: "150px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                        margin: "8px 0",
+                      }}
                     />
-                    <span className="text-sm">{loc.desc}</span>
+                    <span style={{ fontSize: "14px", lineHeight: "1.4" }}>
+                      {loc.desc}
+                    </span>
                   </div>
                 </Popup>
               </Marker>

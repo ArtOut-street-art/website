@@ -6,12 +6,12 @@ export default function About() {
     >
       <div className="max-w-7xl mx-auto px-4 text-center relative z-30 w-full">
         <h2
-          className="text-6xl font-extrabold mb-4 text-pink-400 font-artout drop-shadow"
+          className="text-5xl md:text-6xl font-bold mb-6 text-yellow-400 drop-shadow tracking-tight text-center"
           style={{ textShadow: "2px 2px 8px #000" }}
         >
-          About <span className="text-yellow-400 font-artout">ArtOut</span>
+          About <span className="text-pink-400 font-artout">ArtOut</span>
         </h2>
-        <p className="text-base xs:text-lg md:text-xl text-white mb-4 sm:mb-6 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base xs:text-lg md:text-xl text-gray-200 mb-4 sm:mb-6 max-w-2xl mx-auto leading-relaxed">
           ArtOut is a global platform and mobile app for discovering, capturing,
           and mapping street art in real time.
           <br />
@@ -26,7 +26,7 @@ export default function About() {
             <h3 className="text-2xl font-bold text-pink-400 mb-3">
               Our Mission
             </h3>
-            <p className="text-gray-200 text-base md:text-lg">
+            <p className="text-gray-300 text-base md:text-lg">
               We’re on a mission to make street art accessible and
               unforgettable. By letting anyone instantly share art at its real
               location, we’re building a living, breathing archive of
@@ -39,7 +39,7 @@ export default function About() {
             <h3 className="text-2xl font-bold text-indigo-300 mb-3">
               Our Vision
             </h3>
-            <p className="text-gray-200 text-base md:text-lg">
+            <p className="text-gray-300 text-base md:text-lg">
               We imagine a world where every wall, alley, and city is mapped and
               celebrated for its art. ArtOut empowers artists and explorers
               everywhere—no barriers, no boundaries, just pure urban expression
@@ -52,7 +52,7 @@ export default function About() {
             <h3 className="text-2xl font-bold text-yellow-400 mb-2">
               Join Us While It’s Underground
             </h3>
-            <p className="text-gray-200 text-base md:text-lg mb-2">
+            <p className="text-gray-300 text-base md:text-lg mb-2">
               We’re building the global archive of free, public creativity — and
               you can be part of it from day one.
             </p>

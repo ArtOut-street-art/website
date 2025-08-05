@@ -7,15 +7,15 @@ const mobileAppImages = [
 
 export default function MobileAppShowcase() {
   return (
-    <section id="mobile-app" className="py-20 bg-[#23232b]">
+    <section id="mobile-app" className="py-20 bg-[#18181b]">
       <div className="max-w-5xl mx-auto px-4 text-center">
         <h2
-          className="text-3xl xs:text-4xl sm:text-5xl font-bold mb-8 text-yellow-400 font-sunda tracking-tight"
+          className="text-5xl md:text-6xl font-bold mb-6 text-yellow-400 drop-shadow tracking-tight text-center"
           style={{ textShadow: "2px 2px 8px #000" }}
         >
           See ArtOut in Action on Mobile
         </h2>
-        <p className="text-lg text-white mb-10 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-200 mb-10 max-w-2xl mx-auto">
           Here’s how the ArtOut app looks and feels on your phone. Snap, tag,
           and explore street art in real time—wherever you are.
         </p>
@@ -28,8 +28,8 @@ export default function MobileAppShowcase() {
               <img
                 src={src}
                 alt={`ArtOut mobile app screenshot ${i + 1}`}
-                className="rounded-xl shadow-lg w-[180px] h-[380px] object-cover bg-black"
-                style={{ border: "4px solid #fff" }}
+                className="rounded-xl shadow-lg w-[180px] h-[380px] object-cover bg-[#23232b]"
+                style={{ border: "4px solid #23232b" }}
               />
             </div>
           ))}

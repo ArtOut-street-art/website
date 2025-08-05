@@ -15,11 +15,12 @@ export default function App() {
       <div className="relative z-20">
         <Navbar />
         <Home />
+        <About />
         <Features />
         <MapDemo />
         <MobileAppShowcase />
         <Gallery />
-        <About />
+
         <Contact />
       </div>
       <Footer />

@@ -7,7 +7,7 @@ export default function Navbar() {
     <nav className="bg-[#18181b] border-b border-gray-800 shadow-lg sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4 sm:py-4 sm:px-8 lg:px-12">
         <a href="#home" className="flex items-center gap-2">
-          <span className="text-5xl sm:text-6xl md:text-7xl text-white font-artout drop-shadow leading-none">
+          <span className="text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] text-white font-artout drop-shadow leading-none">
             ArtOut
           </span>
         </a>
@@ -19,7 +19,7 @@ export default function Navbar() {
           ☰
         </button>
         {/* Desktop nav */}
-        <div className="hidden md:flex flex-row space-x-6 lg:space-x-10 text-white text-lg font-semibold items-center">
+        <div className="hidden md:flex flex-row space-x-6 lg:space-x-10 text-gray-200 text-lg font-semibold items-center">
           <a
             href="#home"
             className="hover:text-pink-400 transition-colors duration-200 py-2"
@@ -81,42 +81,42 @@ export default function Navbar() {
             </button>
             <a
               href="#home"
-              className="py-3 px-2 text-white text-lg font-semibold hover:text-pink-400 transition-colors"
+              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
               onClick={() => setOpen(false)}
             >
               Home
             </a>
             <a
               href="#features"
-              className="py-3 px-2 text-white text-lg font-semibold hover:text-pink-400 transition-colors"
+              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
               onClick={() => setOpen(false)}
             >
               Features
             </a>
             <a
               href="#about"
-              className="py-3 px-2 text-white text-lg font-semibold hover:text-pink-400 transition-colors"
+              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
               onClick={() => setOpen(false)}
             >
               About
             </a>
             <a
               href="#mission"
-              className="py-3 px-2 text-white text-lg font-semibold hover:text-pink-400 transition-colors"
+              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
               onClick={() => setOpen(false)}
             >
               Mission
             </a>
             <a
               href="#gallery"
-              className="py-3 px-2 text-white text-lg font-semibold hover:text-pink-400 transition-colors"
+              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
               onClick={() => setOpen(false)}
             >
               Gallery
             </a>
             <a
               href="#contact"
-              className="py-3 px-2 text-white text-lg font-semibold hover:text-pink-400 transition-colors"
+              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
               onClick={() => setOpen(false)}
             >
               Contact

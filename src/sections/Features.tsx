@@ -1,15 +1,15 @@
 export default function Features() {
   return (
-    <section id="features" className="py-10 bg-[#23232b]">
+    <section id="features" className="py-10 bg-[#18181b]">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 text-center">
         <h2
-          className="text-3xl xs:text-4xl sm:text-5xl font-artout font-extrabold mb-4 sm:mb-6 text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 via-pink-400 to-indigo-400 drop-shadow tracking-tight"
-          style={{ letterSpacing: "0.04em" }}
+          className="text-5xl md:text-6xl font-bold mb-6 text-yellow-400 drop-shadow tracking-tight text-center"
+          style={{ textShadow: "2px 2px 8px #000" }}
         >
           Features
         </h2>
         {/* Feature/benefit blocks */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
           <div className="bg-[#23232b] rounded-2xl shadow-lg p-6 flex flex-col items-center">
             <span className="text-3xl mb-2">📍</span>
             <h3 className="text-xl font-bold text-yellow-400 mb-2">
