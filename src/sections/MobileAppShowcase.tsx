@@ -7,7 +7,7 @@ const mobileAppImages = [
 
 export default function MobileAppShowcase() {
   return (
-    <section id="mobile-app" className="py-20 bg-[#18181b]">
+    <section id="mobile-app" className="py-20 bg-[#23232b]">
       <div className="max-w-5xl mx-auto px-4 text-center">
         <h2
           className="text-3xl xs:text-4xl sm:text-5xl font-bold mb-8 text-yellow-400 font-sunda tracking-tight"

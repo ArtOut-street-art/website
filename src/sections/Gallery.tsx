@@ -1,14 +1,14 @@
 export default function Gallery() {
   return (
-    <section id="gallery" className="py-24 bg-[#18181b]">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4">
+    <section id="gallery" className="py-12 bg-[#23232b]">
+      <div className="max-w-6xl mx-auto px-4">
         <h2
-          className="text-3xl xs:text-4xl sm:text-5xl font-bold mb-8 sm:mb-14 text-yellow-400 text-center font-sunda tracking-tight"
+          className="text-5xl font-bold mb-7 text-yellow-400 text-center font-sunda tracking-tight"
           style={{ textShadow: "2px 2px 8px #000" }}
         >
           Street Art Gallery
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
           {(
             [
               { src: "/images/gallery1.jpg", alt: "Urban Floral Mural" },
@@ -44,7 +44,7 @@ export default function Gallery() {
             </div>
           ))}
         </div>
-        <p className="mt-8 sm:mt-12 text-center text-gray-400 text-base sm:text-lg font-akadylan">
+        <p className="mt-4 sm:mt-6 text-center text-gray-400 text-base sm:text-lg font-akadylan">
           More coming soon. Want your art featured?{" "}
           <a
             href="#contact"

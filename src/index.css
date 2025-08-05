@@ -30,6 +30,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
+  font-family: 'Inter', 'Open Sans', Arial, sans-serif;
 }
 html { scroll-behavior: smooth; }
 

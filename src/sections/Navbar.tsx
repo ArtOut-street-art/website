@@ -5,9 +5,9 @@ export default function Navbar() {
 
   return (
     <nav className="bg-[#18181b] border-b border-gray-800 shadow-lg sticky top-0 z-50 transition-all duration-300">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-3 sm:py-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4 sm:py-4 sm:px-8 lg:px-12">
         <a href="#home" className="flex items-center gap-2">
-          <span className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-white font-artout drop-shadow leading-none">
+          <span className="text-5xl sm:text-6xl md:text-7xl text-white font-artout drop-shadow leading-none">
             ArtOut
           </span>
         </a>
@@ -19,7 +19,7 @@ export default function Navbar() {
           ☰
         </button>
         {/* Desktop nav */}
-        <div className="hidden md:flex flex-row space-x-4 lg:space-x-8 text-white text-base lg:text-lg font-semibold items-center">
+        <div className="hidden md:flex flex-row space-x-6 lg:space-x-10 text-white text-lg font-semibold items-center">
           <a
             href="#home"
             className="hover:text-pink-400 transition-colors duration-200 py-2"
