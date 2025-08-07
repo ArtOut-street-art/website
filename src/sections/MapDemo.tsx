@@ -1,6 +1,15 @@
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+  useMap,
+} from "react-leaflet";
+import { useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
+import { dataset } from "../data/mapData";
 
 // Fix Leaflet's default icon paths
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -10,52 +19,78 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/images/marker-shadow.png",
 });
 
-// Improved street art locations with local images and engaging descriptions
-const streetArtLocations: {
-  name: string;
-  position: [number, number];
-  image: string;
-  desc: string;
-}[] = [
-  {
-    name: "Tattersalls Lane",
-    position: [-37.807972, 144.965355],
-    image: "/images/tattersalls-lane.jpg",
-    desc: "A vibrant laneway bursting with color, home to ever-changing murals, hidden bars, and authentic Asian eateries.",
-  },
-  {
-    name: "Centre Place",
-    position: [-37.817543, 144.965331],
-    image: "/images/centre-place.jpg",
-    desc: "Melbourne’s iconic blue-stone alley, alive with graffiti, indie boutiques, and the aroma of fresh espresso.",
-  },
-  {
-    name: "Blender Lane",
-    position: [-37.810668, 144.953315],
-    image: "/images/blender-lane.jpg",
-    desc: "A hidden gem where artists experiment with stencils, murals, and paste-ups. Blender Lane is a living gallery.",
-  },
-  {
-    name: "Duckboard Place",
-    position: [-37.817187, 144.969099],
-    image: "/images/duckboard-place.jpg",
-    desc: "From WWII history to modern murals, Duckboard Place is a canvas for large-scale works and edgy creativity.",
-  },
-  {
-    name: "Hosier Lane",
-    position: [-37.816563, 144.969021],
-    image: "/images/hosier-lane.jpg",
-    desc: "Melbourne’s most photographed street art destination. Every inch is covered in color and characters.",
-  },
-  {
-    name: "Union Lane",
-    position: [-37.814857, 144.965356],
-    image: "/images/union-lane.jpg",
-    desc: "A narrow corridor transformed into a graffiti wonderland. Union Lane is a favorite for street artists.",
-  },
+function FitBoundsUpdater({ bounds }: { bounds: L.LatLngBoundsExpression }) {
+  const map = useMap();
+  useEffect(() => {
+    if (bounds) {
+      map.fitBounds(bounds, { padding: [50, 50] });
+    }
+  }, [bounds, map]);
+  return null;
+}
+
+function InvalidateMapSize() {
+  const map = useMap();
+  useEffect(() => {
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+  }, [map]);
+  return null;
+}
+
+const routeColors = [
+  "#3357ff",
+  "#ff5722",
+  "#4caf50",
+  "#2196f3",
+  "#9c27b0",
+  "#ff9800",
+  "#e91e63",
 ];
 
 export default function MapDemo() {
+  const [selectedTour, setSelectedTour] = useState(""); // current tour id
+
+  const currentTour = dataset.tours.find((t) => t.id === selectedTour);
+
+  const filteredFeatures =
+    selectedTour === ""
+      ? dataset.features
+      : (() => {
+          const tour = dataset.tours.find((t) => t.id === selectedTour);
+          if (!tour) return dataset.features;
+          return tour.stop_ids
+            .map((id) => dataset.features.find((feature) => feature.id === id))
+            .filter(Boolean) as typeof dataset.features;
+        })();
+
+  const routeCoordinates =
+    selectedTour && filteredFeatures.length > 1
+      ? filteredFeatures.map(
+          (feature) =>
+            [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+            ] as [number, number]
+        )
+      : [];
+
+  const bounds: L.LatLngBoundsExpression | undefined =
+    filteredFeatures.length > 0
+      ? (filteredFeatures.map((feature) => [
+          feature.geometry.coordinates[1],
+          feature.geometry.coordinates[0],
+        ]) as [number, number][])
+      : undefined;
+
+  // Use tour's embedded color if selected; otherwise fallback
+  let routeColor = "#3357ff"; // default fallback
+  if (selectedTour) {
+    const tourIndex = dataset.tours.findIndex((t) => t.id === selectedTour);
+    routeColor = routeColors[tourIndex % routeColors.length];
+  }
+
   return (
     <section
       id="map"
@@ -65,106 +100,113 @@ export default function MapDemo() {
         <h2 className="text-6xl md:text-7xl font-bold text-white text-center tracking-tight mb-6">
           Explore the Map
         </h2>
-        <p className="text-lg md:text-xl text-gray-200 text-center mb-8 max-w-3xl mx-auto font-sunda">
-          Discover Melbourne’s legendary street art scene. Tap a pin to reveal
-          the story behind each mural, or use our guided tour and artist
-          explorer to make the most of your visit.
+        <p className="text-lg md:text-xl text-gray-200 text-center mb-4 max-w-3xl mx-auto font-sunda">
+          Discover Melbourne’s legendary street art scene. Tap a marker to
+          reveal the name and address.
         </p>
-        <div className="w-full flex flex-col md:flex-row gap-8 mb-10">
-          <div className="bg-gradient-to-br from-yellow-300/20 via-yellow-100/10 to-transparent rounded-2xl shadow-xl p-8 flex-1 text-left border-l-4 border-yellow-400">
-            <h3 className="text-2xl font-artout font-bold text-yellow-400 mb-2 flex items-center gap-2">
-              <span className="text-3xl">🗺️</span> Guided Street Art Tour
-            </h3>
-            <p className="text-gray-200 text-lg">
-              Follow our curated route through Melbourne’s most iconic laneways.
-              Each stop is packed with color, history, and stories from the
-              artists themselves.
-            </p>
-            <a
-              href="#"
-              className="inline-block mt-4 px-6 py-2 rounded-full bg-yellow-400 text-black font-bold shadow hover:bg-yellow-300 transition"
+        {/* Tour Buttons */}
+        <div className="mb-6 flex flex-wrap justify-center gap-4">
+          <button
+            onClick={() => setSelectedTour("")}
+            className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors ${
+              selectedTour === "" ? "border-2 border-yellow-400" : ""
+            }`}
+          >
+            View All Stops
+          </button>
+          {dataset.tours.map((tour) => (
+            <button
+              key={tour.id}
+              onClick={() => setSelectedTour(tour.id)}
+              className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors ${
+                selectedTour === tour.id ? "border-2 border-yellow-400" : ""
+              }`}
             >
-              Start Tour
-            </a>
-          </div>
-          <div className="bg-gradient-to-br from-pink-400/20 via-pink-100/10 to-transparent rounded-2xl shadow-xl p-8 flex-1 text-left border-l-4 border-pink-400">
-            <h3 className="text-2xl font-artout font-bold text-pink-400 mb-2 flex items-center gap-2">
-              <span className="text-3xl">🎨</span> Artist Explorer
-            </h3>
-            <p className="text-gray-200 text-lg">
-              Looking for a favorite artist? Filter the map to see all their
-              works, read bios, and get directions to each mural.
-            </p>
-            <a
-              href="#"
-              className="inline-block mt-4 px-6 py-2 rounded-full bg-pink-400 text-white font-bold shadow hover:bg-pink-300 transition"
-            >
-              Browse Artists
-            </a>
-          </div>
+              {tour.name}
+            </button>
+          ))}
         </div>
+        {/* Guided Tour Card */}
+        {selectedTour === "" ? (
+          <div className="mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
+            <h3 className="text-2xl font-artout font-bold text-white mb-2">
+              🗺️ Guided Street Art Tour
+            </h3>
+            <p className="text-gray-200 mb-2">
+              Follow our curated route through Melbourne’s most iconic laneways.
+              Each stop is packed with color, history, and stories.
+            </p>
+            <button className="mt-2 px-4 py-2 bg-yellow-400 text-black font-bold rounded-full shadow hover:bg-yellow-300 transition-colors">
+              Start Tour
+            </button>
+            <p className="mt-2 text-gray-400">
+              Click above tours to see more details.
+            </p>
+          </div>
+        ) : (
+          <div className="mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
+            <h3 className="text-2xl font-artout font-bold text-white mb-2">
+              Guided Tour Details
+            </h3>
+            <p className="text-gray-200">{currentTour?.description}</p>
+            <p className="mt-2 text-gray-400">
+              Approx. {currentTour?.approx_distance_km} km •{" "}
+              {currentTour?.est_time_min} min
+            </p>
+          </div>
+        )}
+        {/* Map Container */}
         <div
           className="w-full rounded-xl overflow-hidden shadow-2xl border-4 border-yellow-400 bg-black flex items-center justify-center"
-          style={{
-            minHeight: "500px",
-            maxHeight: "700px",
-            height: "60vh",
-          }}
+          style={{ minHeight: "500px", maxHeight: "700px", height: "60vh" }}
         >
           <MapContainer
-            center={[-37.8105, 144.9631]}
+            center={[-37.815, 144.967]}
             zoom={15}
             style={{ width: "100%", height: "100%" }}
             scrollWheelZoom={true}
             className="w-full h-[60vh] min-h-[500px] max-h-[700px] rounded-xl"
           >
+            {/* Using a lower‑detail tile layer */}
             <TileLayer
-              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © CARTO'
+              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             />
-            {streetArtLocations.map((loc) => (
-              <Marker key={loc.name} position={loc.position}>
-                <Popup maxWidth={250} minWidth={200}>
-                  <div style={{ minWidth: 200, maxWidth: 240 }}>
-                    <strong
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      {loc.name}
+            {filteredFeatures.map((feature) => (
+              <Marker
+                key={feature.id}
+                position={[
+                  feature.geometry.coordinates[1],
+                  feature.geometry.coordinates[0],
+                ]}
+              >
+                <Popup>
+                  <div style={{ minWidth: 180, maxWidth: 220 }}>
+                    <strong style={{ fontSize: "16px", fontWeight: "500" }}>
+                      {feature.properties.name}
                     </strong>
                     <br />
-                    <img
-                      src={loc.image}
-                      alt={loc.name}
-                      style={{
-                        width: "100%",
-                        height: "150px",
-                        objectFit: "cover",
-                        borderRadius: "8px",
-                        margin: "10px 0",
-                        boxShadow: "0 4px 16px rgba(0,0,0,0.25)",
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: "15px",
-                        lineHeight: "1.5",
-                        color: "#000",
-                      }}
-                    >
-                      {loc.desc}
+                    <span style={{ fontSize: "13px", lineHeight: "1.4" }}>
+                      {feature.properties.address}
                     </span>
                   </div>
                 </Popup>
               </Marker>
             ))}
+            {selectedTour && routeCoordinates.length > 1 && (
+              <Polyline
+                positions={routeCoordinates}
+                color={routeColor}
+                weight={5}
+                opacity={0.9}
+              />
+            )}
+            {bounds && <FitBoundsUpdater bounds={bounds} />}
+            <InvalidateMapSize />
           </MapContainer>
         </div>
         <p className="text-center text-gray-400 mt-5 text-base font-sunda">
-          (Demo map. Locations and images are for illustration only. Want your
-          art featured?{" "}
+          (Demo map. Want your art featured?{" "}
           <a
             href="#contact"
             className="text-pink-400 underline hover:text-yellow-400 transition-colors font-medium"
