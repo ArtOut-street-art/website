@@ -12,14 +12,13 @@ export function useSprayTrail(ref: React.RefObject<HTMLDivElement>) {
     canvas.style.left = "0";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
-    canvas.style.pointerEvents = "auto";
-    canvas.style.zIndex = "20"; // was 11, now 20 to match Home.tsx
+    canvas.style.pointerEvents = "none"; 
+    canvas.style.zIndex = "5";
     canvas.style.display = "block";
     container.appendChild(canvas);
 
     let ctx = canvas.getContext("2d");
     let animationId: number | null = null;
-    let spraying = false;
     let particles: {
       x: number;
       y: number;
@@ -43,8 +42,8 @@ export function useSprayTrail(ref: React.RefObject<HTMLDivElement>) {
       }
     }
     resize();
-    // Use ResizeObserver for more robust resizing
-    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(resize) : null;
+    const ro =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(resize) : null;
     if (ro) ro.observe(container);
     window.addEventListener("resize", resize);
 
@@ -93,49 +92,20 @@ export function useSprayTrail(ref: React.RefObject<HTMLDivElement>) {
       animationId = requestAnimationFrame(animate);
     }
 
-    // Mouse events
-    function handleMouseDown(e: MouseEvent) {
-      spraying = true;
-      handleMouseMove(e);
-    }
-    function handleMouseUp() {
-      spraying = false;
-    }
+    // Attach mousemove event on window so we can detect hover over the container
     function handleMouseMove(e: MouseEvent) {
-      if (!spraying) return;
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      spray((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
-    }
-
-    // Touch events
-    function handleTouchStart(e: TouchEvent) {
-      spraying = true;
-      handleTouchMove(e);
-    }
-    function handleTouchEnd() {
-      spraying = false;
-    }
-    function handleTouchMove(e: TouchEvent) {
-      if (!spraying) return;
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      for (let i = 0; i < e.touches.length; i++) {
-        const touch = e.touches[i];
-        spray((touch.clientX - rect.left) * dpr, (touch.clientY - rect.top) * dpr);
+      const rect = container.getBoundingClientRect();
+      // Only spray if the mouse is within the container's bounding box
+      if (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      ) {
+        spray(e.clientX - rect.left, e.clientY - rect.top);
       }
     }
-
-    // Attach events to canvas only
-    canvas.addEventListener("mousedown", handleMouseDown);
-    canvas.addEventListener("mouseup", handleMouseUp);
-    canvas.addEventListener("mouseleave", handleMouseUp);
-    canvas.addEventListener("mousemove", handleMouseMove);
-
-    canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
-    canvas.addEventListener("touchend", handleTouchEnd);
-    canvas.addEventListener("touchcancel", handleTouchEnd);
-    canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("mousemove", handleMouseMove);
 
     animate();
 
@@ -144,14 +114,7 @@ export function useSprayTrail(ref: React.RefObject<HTMLDivElement>) {
       if (animationId) cancelAnimationFrame(animationId);
       if (ro) ro.disconnect();
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousedown", handleMouseDown);
-      canvas.removeEventListener("mouseup", handleMouseUp);
-      canvas.removeEventListener("mouseleave", handleMouseUp);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("touchstart", handleTouchStart);
-      canvas.removeEventListener("touchend", handleTouchEnd);
-      canvas.removeEventListener("touchcancel", handleTouchEnd);
-      canvas.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       if (container.contains(canvas)) container.removeChild(canvas);
     };
   }, [ref]);

@@ -19,12 +19,12 @@ export default function Home() {
         backgroundPosition: "center",
       }}
     >
-      <div className="absolute inset-0 bg-black/80 z-0" />
+      <div className="absolute inset-0 bg-black/95 z-0" />
       {/* Spray trail canvas */}
       <div
         ref={trailRef}
-        className="absolute inset-0 z-10"
-        style={{ pointerEvents: "auto" }}
+        className="absolute inset-0 z-30"
+        style={{ pointerEvents: "none" }}
       />
       <div className="relative z-20 flex flex-col items-center justify-center w-full h-full text-center px-2 sm:px-4">
         <img
@@ -32,7 +32,7 @@ export default function Home() {
           alt="ArtOut Logo"
           className="w-28 h-28 mb-6 object-contain"
         />
-        <h1 className="text-6xl md:text-7xl font-extrabold text-white font-artout mb-4 transition-all duration-500">
+        <h1 className="text-6xl md:text-7xl  text-white font-artout mb-4 transition-all duration-500">
           ArtOut
         </h1>
         <p className="mt-2 text-2xl md:text-3xl text-white/90 font-semibold font-sunda mb-6">

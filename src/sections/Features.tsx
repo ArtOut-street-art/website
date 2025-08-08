@@ -24,7 +24,7 @@ export default function Features() {
               and country. Every snap becomes part of a living archive.
             </p>
             <img
-              src="/images/gallery1.jpg"
+              src="/images/gallery/nature-3.jpg"
               alt="Geotag example"
               className="rounded-lg mt-4 w-full h-32 object-cover"
             />
@@ -41,7 +41,7 @@ export default function Features() {
               creativity.
             </p>
             <img
-              src="/images/gallery2.jpg"
+              src="/images/gallery/abstract-3.jpg"
               alt="Street art"
               className="rounded-lg mt-4 w-full h-32 object-cover"
             />
@@ -57,7 +57,7 @@ export default function Features() {
               lost. We’re not just mapping art, we’re archiving culture.
             </p>
             <img
-              src="/images/gallery3.jpg"
+              src="/images/gallery/modern-3.jpg"
               alt="Urban graffiti"
               className="rounded-lg mt-4 w-full h-32 object-cover"
             />

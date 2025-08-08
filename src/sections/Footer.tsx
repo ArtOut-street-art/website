@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#18181b] text-gray-400 py-8 text-sm font-sunda tracking-wide w-full max-w-full overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Column 1: Logo and tagline */}
+        {/* Column 1: Logo, tagline, and legal information */}
         <div className="flex flex-col items-center md:items-start">
           <div className="flex items-center gap-2 mb-2">
             <img
@@ -12,9 +12,21 @@ export default function Footer() {
             />
             <h1 className="text-lg font-artout text-gray-300">ArtOut</h1>
           </div>
-          <p className="text-gray-500 text-sm text-center md:text-left">
+          <p className="text-gray-500 text-sm text-center md:text-left mb-2">
             Mapping the world’s street art, one wall at a time.
           </p>
+          <p className="text-xs text-gray-500 text-center md:text-left mb-2">
+            © {new Date().getFullYear()} ArtOut. All rights reserved.
+          </p>
+          <div className="text-xs text-gray-500 text-center md:text-left">
+            <a href="#" className="hover:text-gray-300 transition-colors">
+              Privacy Policy
+            </a>{" "}
+            |{" "}
+            <a href="#" className="hover:text-gray-300 transition-colors">
+              Terms of Service
+            </a>
+          </div>
         </div>
 
         {/* Column 2: Navigation links */}
@@ -95,20 +107,6 @@ export default function Footer() {
             </span>
           </div>
         </div>
-      </div>
-
-      {/* Legal and copyright */}
-      <div className="mt-8 text-center text-xs text-gray-500">
-        <p>© {new Date().getFullYear()} ArtOut. All rights reserved.</p>
-        <p>
-          <a href="#" className="hover:text-gray-300 transition-colors">
-            Privacy Policy
-          </a>{" "}
-          |{" "}
-          <a href="#" className="hover:text-gray-300 transition-colors">
-            Terms of Service
-          </a>
-        </p>
       </div>
     </footer>
   );
