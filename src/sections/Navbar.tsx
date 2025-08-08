@@ -7,6 +7,11 @@ export default function Navbar() {
     <nav className="bg-[#18181b] border-b border-gray-800 shadow-lg sticky top-0 z-50 transition-all duration-300 w-full max-w-full overflow-x-hidden">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 sm:px-6 w-full">
         <a href="#home" className="flex items-center gap-2 min-w-0">
+          <img
+            src="/images/artout-logo.png"
+            alt="ArtOut Logo"
+            className="w-10 h-10 object-contain"
+          />
           <span className="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white font-artout drop-shadow">
             ArtOut
           </span>
@@ -43,10 +48,10 @@ export default function Navbar() {
               About
             </a>
             <a
-              href="#mission"
+              href="#map"
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
-              Mission
+              Map
             </a>
             <a
               href="#gallery"
@@ -54,6 +59,7 @@ export default function Navbar() {
             >
               Gallery
             </a>
+
             <a
               href="#contact"
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"

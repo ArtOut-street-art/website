@@ -13,30 +13,29 @@ function SlideshowCard({ images, alt }: { images: string[]; alt: string }) {
   };
 
   return (
-    <div className="bg-[#23232b] text-white shadow-xl rounded-2xl border-2 border-indigo-400 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03] group flex flex-col">
+    <div className="bg-[#23232b] text-gray-300 shadow-xl rounded-2xl border-2 border-gray-600 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03] group flex flex-col">
       <div className="relative">
         <img
           src={images[current]}
           alt={alt}
           className="object-cover w-full h-64 transition-transform duration-300 group-hover:scale-105"
         />
-        {/* Ensure buttons are clickable with z-index and pointer-events */}
         <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-auto z-10">
           <button
             onClick={prevImage}
-            className="bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
+            className="bg-black/50 text-gray-300 p-2 rounded-full hover:bg-black/70"
           >
             &larr;
           </button>
           <button
             onClick={nextImage}
-            className="bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
+            className="bg-black/50 text-gray-300 p-2 rounded-full hover:bg-black/70"
           >
             &rarr;
           </button>
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-2xl">
-          <span className="text-white text-lg font-semibold p-4 font-akadylan">
+          <span className="text-gray-300 text-lg font-semibold p-4 font-akadylan">
             {alt}
           </span>
         </div>
