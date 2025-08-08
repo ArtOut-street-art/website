@@ -1,21 +1,21 @@
 export default function Footer() {
   return (
-    <footer className="bg-[#18181b] text-gray-400 py-8 text-sm font-sunda tracking-wide w-full max-w-full overflow-x-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Column 1: Logo, tagline, and legal information */}
+    <footer className="bg-[#18181b] text-gray-400 py-4 sm:py-8 text-xs sm:text-sm font-sunda tracking-wide w-full max-w-full overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-4 items-start">
+        {/* Logo, tagline, and legal */}
         <div className="flex flex-col items-center md:items-start">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-1">
             <img
               src="/images/artout-logo.png"
               alt="ArtOut Logo"
-              className="w-10 h-10 object-contain"
+              className="w-8 h-8 object-contain"
             />
-            <h1 className="text-lg font-artout text-gray-300">ArtOut</h1>
+            <h1 className="text-base font-artout text-gray-300">ArtOut</h1>
           </div>
-          <p className="text-gray-500 text-sm text-center md:text-left mb-2">
+          <p className="text-gray-500 text-center md:text-left mb-1">
             Mapping the world’s street art, one wall at a time.
           </p>
-          <p className="text-xs text-gray-500 text-center md:text-left mb-2">
+          <p className="text-xs text-gray-500 text-center md:text-left mb-1">
             © {new Date().getFullYear()} ArtOut. All rights reserved.
           </p>
           <div className="text-xs text-gray-500 text-center md:text-left">
@@ -28,13 +28,12 @@ export default function Footer() {
             </a>
           </div>
         </div>
-
-        {/* Column 2: Navigation links */}
-        <div className="flex flex-col items-center md:items-start">
-          <h3 className="text-gray-300 text-base font-semibold mb-2">
+        {/* Navigation links */}
+        <div className="flex flex-col items-center md:items-center">
+          <h3 className="text-gray-300 text-xs font-semibold mb-1">
             Quick Links
           </h3>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
             <a href="#home" className="hover:text-gray-300 transition-colors">
               Home
             </a>
@@ -61,18 +60,17 @@ export default function Footer() {
             </a>
           </div>
         </div>
-
-        {/* Column 3: Social media links */}
-        <div className="flex flex-col items-center md:items-start">
-          <h3 className="text-gray-300 text-base font-semibold mb-2">
+        {/* Social media links */}
+        <div className="flex flex-col items-center md:items-end">
+          <h3 className="text-gray-300 text-xs font-semibold mb-1">
             Follow Us
           </h3>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1 md:gap-2">
             <a
               href="https://www.linkedin.com/company/artout-app/about/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 hover:text-gray-300 transition-colors"
+              className="flex items-center gap-1 hover:text-gray-300 transition-colors"
             >
               <img
                 src="/images/icons/linkedin.png"
@@ -81,7 +79,7 @@ export default function Footer() {
               />
               LinkedIn
             </a>
-            <span className="flex items-center gap-2 text-gray-500 italic">
+            <span className="flex items-center gap-1 text-gray-500 italic">
               <img
                 src="/images/icons/instagram.png"
                 alt="Instagram"
@@ -89,7 +87,7 @@ export default function Footer() {
               />
               Instagram (Coming Soon)
             </span>
-            <span className="flex items-center gap-2 text-gray-500 italic">
+            <span className="flex items-center gap-1 text-gray-500 italic">
               <img
                 src="/images/icons/twitter.png"
                 alt="Twitter"
@@ -97,7 +95,7 @@ export default function Footer() {
               />
               Twitter (Coming Soon)
             </span>
-            <span className="flex items-center gap-2 text-gray-500 italic">
+            <span className="flex items-center gap-1 text-gray-500 italic">
               <img
                 src="/images/icons/facebook.png"
                 alt="Facebook"
