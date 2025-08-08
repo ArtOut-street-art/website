@@ -1,15 +1,8 @@
 import L from "leaflet";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-  useMap,
-} from "react-leaflet";
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import "leaflet/dist/leaflet.css";
 import { dataset } from "../data/mapData";
+import { MapWrapper } from "../components/MapWrapper";
 
 // Fix Leaflet's default icon paths
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -19,26 +12,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/images/marker-shadow.png",
 });
 
-function FitBoundsUpdater({ bounds }: { bounds: L.LatLngBoundsExpression }) {
-  const map = useMap();
-  useEffect(() => {
-    if (bounds) {
-      map.fitBounds(bounds, { padding: [50, 50] });
-    }
-  }, [bounds, map]);
-  return null;
-}
-
-function InvalidateMapSize() {
-  const map = useMap();
-  useEffect(() => {
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 100);
-  }, [map]);
-  return null;
-}
-
+// (Optional: eventually routeColors can reside within dataset)
 const routeColors = [
   "#3357ff",
   "#ff5722",
@@ -51,19 +25,19 @@ const routeColors = [
 
 export default function MapDemo() {
   const [selectedTour, setSelectedTour] = useState(""); // current tour id
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const currentTour = dataset.tours.find((t) => t.id === selectedTour);
 
   const filteredFeatures =
     selectedTour === ""
       ? dataset.features
-      : (() => {
-          const tour = dataset.tours.find((t) => t.id === selectedTour);
-          if (!tour) return dataset.features;
-          return tour.stop_ids
-            .map((id) => dataset.features.find((feature) => feature.id === id))
-            .filter(Boolean) as typeof dataset.features;
-        })();
+      : (dataset.tours
+          .find((t) => t.id === selectedTour)
+          ?.stop_ids.map((id) =>
+            dataset.features.find((feature) => feature.id === id)
+          )
+          .filter(Boolean) as typeof dataset.features) || dataset.features;
 
   const routeCoordinates =
     selectedTour && filteredFeatures.length > 1
@@ -84,12 +58,22 @@ export default function MapDemo() {
         ]) as [number, number][])
       : undefined;
 
-  // Use tour's embedded color if selected; otherwise fallback
   let routeColor = "#3357ff"; // default fallback
   if (selectedTour) {
     const tourIndex = dataset.tours.findIndex((t) => t.id === selectedTour);
     routeColor = routeColors[tourIndex % routeColors.length];
   }
+
+  // Build the markers list
+  const markers = filteredFeatures.map((feature) => ({
+    id: feature.id.toString(),
+    position: [
+      feature.geometry.coordinates[1],
+      feature.geometry.coordinates[0],
+    ] as [number, number],
+    name: feature.properties.name,
+    address: feature.properties.address,
+  }));
 
   return (
     <section
@@ -107,7 +91,12 @@ export default function MapDemo() {
         {/* Tour Buttons */}
         <div className="mb-6 flex flex-wrap justify-center gap-4">
           <button
-            onClick={() => setSelectedTour("")}
+            onClick={() => {
+              setSelectedTour("");
+              if (window.innerWidth < 768) {
+                mapContainerRef.current?.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
             className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors ${
               selectedTour === "" ? "border-2 border-yellow-400" : ""
             }`}
@@ -117,7 +106,14 @@ export default function MapDemo() {
           {dataset.tours.map((tour) => (
             <button
               key={tour.id}
-              onClick={() => setSelectedTour(tour.id)}
+              onClick={() => {
+                setSelectedTour(tour.id);
+                if (window.innerWidth < 768) {
+                  mapContainerRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                  });
+                }
+              }}
               className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors ${
                 selectedTour === tour.id ? "border-2 border-yellow-400" : ""
               }`}
@@ -126,9 +122,26 @@ export default function MapDemo() {
             </button>
           ))}
         </div>
-        {/* Guided Tour Card */}
+
+        {/* Map Container */}
+        <div
+          ref={mapContainerRef}
+          className="w-full rounded-xl overflow-hidden shadow-2xl border-4 border-yellow-400 bg-black flex items-center justify-center"
+          style={{ minHeight: "500px", maxHeight: "700px", height: "60vh" }}
+        >
+          <MapWrapper
+            center={[-37.815, 144.967]}
+            zoom={15}
+            markers={markers}
+            polylinePositions={routeCoordinates}
+            polylineColor={routeColor}
+            bounds={bounds}
+          />
+        </div>
+
+        {/* Guided Tour Card moved below the map */}
         {selectedTour === "" ? (
-          <div className="mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
+          <div className="mt-6 mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
             <h3 className="text-2xl font-artout font-bold text-white mb-2">
               🗺️ Guided Street Art Tour
             </h3>
@@ -144,7 +157,7 @@ export default function MapDemo() {
             </p>
           </div>
         ) : (
-          <div className="mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
+          <div className="mt-6 mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
             <h3 className="text-2xl font-artout font-bold text-white mb-2">
               Guided Tour Details
             </h3>
@@ -155,56 +168,6 @@ export default function MapDemo() {
             </p>
           </div>
         )}
-        {/* Map Container */}
-        <div
-          className="w-full rounded-xl overflow-hidden shadow-2xl border-4 border-yellow-400 bg-black flex items-center justify-center"
-          style={{ minHeight: "500px", maxHeight: "700px", height: "60vh" }}
-        >
-          <MapContainer
-            center={[-37.815, 144.967]}
-            zoom={15}
-            style={{ width: "100%", height: "100%" }}
-            scrollWheelZoom={true}
-            className="w-full h-[60vh] min-h-[500px] max-h-[700px] rounded-xl"
-          >
-            {/* Using a lower‑detail tile layer */}
-            <TileLayer
-              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © CARTO'
-              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-            />
-            {filteredFeatures.map((feature) => (
-              <Marker
-                key={feature.id}
-                position={[
-                  feature.geometry.coordinates[1],
-                  feature.geometry.coordinates[0],
-                ]}
-              >
-                <Popup>
-                  <div style={{ minWidth: 180, maxWidth: 220 }}>
-                    <strong style={{ fontSize: "16px", fontWeight: "500" }}>
-                      {feature.properties.name}
-                    </strong>
-                    <br />
-                    <span style={{ fontSize: "13px", lineHeight: "1.4" }}>
-                      {feature.properties.address}
-                    </span>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-            {selectedTour && routeCoordinates.length > 1 && (
-              <Polyline
-                positions={routeCoordinates}
-                color={routeColor}
-                weight={5}
-                opacity={0.9}
-              />
-            )}
-            {bounds && <FitBoundsUpdater bounds={bounds} />}
-            <InvalidateMapSize />
-          </MapContainer>
-        </div>
         <p className="text-center text-gray-400 mt-5 text-base font-sunda">
           (Demo map. Want your art featured?{" "}
           <a

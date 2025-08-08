@@ -1,66 +1,73 @@
+import { useState } from "react";
+import { galleryData } from "../data/galleryData";
+
+function SlideshowCard({ images, alt }: { images: string[]; alt: string }) {
+  const [current, setCurrent] = useState(0);
+
+  const nextImage = () => {
+    setCurrent((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrent((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  return (
+    <div className="bg-[#23232b] text-white shadow-xl rounded-2xl border-2 border-indigo-400 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03] group flex flex-col">
+      <div className="relative">
+        <img
+          src={images[current]}
+          alt={alt}
+          className="object-cover w-full h-64 transition-transform duration-300 group-hover:scale-105"
+        />
+        {/* Ensure buttons are clickable with z-index and pointer-events */}
+        <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-auto z-10">
+          <button
+            onClick={prevImage}
+            className="bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
+          >
+            &larr;
+          </button>
+          <button
+            onClick={nextImage}
+            className="bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
+          >
+            &rarr;
+          </button>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-2xl">
+          <span className="text-white text-lg font-semibold p-4 font-akadylan">
+            {alt}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Gallery() {
   return (
-    <section id="gallery" className="py-12 bg-[#18181b]">
-      <div className="max-w-6xl mx-auto px-4">
+    <section
+      id="gallery"
+      className="py-24 bg-[#18181b] w-full max-w-full overflow-x-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-2 sm:px-6">
         <h2
-          className="text-6xl md:text-7xl font-bold mb-6 text-white drop-shadow tracking-tight text-center"
-          style={{ textShadow: "3px 3px 12px #000", letterSpacing: "0.04em" }}
+          className="text-5xl font-bold mb-14 text-yellow-400 text-center font-sunda tracking-tight"
+          style={{ textShadow: "2px 2px 8px #000" }}
         >
-          StreetArt Gallery
+          Street Art Gallery
         </h2>
-        <p className="text-lg md:text-xl text-gray-200 text-center mb-8 max-w-2xl mx-auto font-sunda">
-          Browse a curated collection of the world’s most vibrant street art.
-          Use the slideshow to see featured works, or scroll down for more. Save
-          your favourites and share them with friends!
-        </p>
-        {/* Slideshow */}
-        <div className="w-full flex justify-center mb-8">
-          {/* Replace with a real slideshow/carousel if you wish */}
-          <div className="rounded-xl overflow-hidden shadow-lg border-4 border-pink-400 w-full max-w-xl">
-            <img
-              src="/images/gallery1.jpg"
-              alt="Featured Urban Floral Mural"
-              className="object-cover w-full h-64"
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {galleryData.map((data) => (
+            <SlideshowCard
+              key={data.images[0]}
+              images={data.images}
+              alt={data.alt}
             />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
-          {(
-            [
-              { src: "/images/gallery1.jpg", alt: "Urban Floral Mural" },
-              { src: "/images/gallery2.jpg", alt: "Colorful Wall Art" },
-              { src: "/images/bg2.png", alt: "Classic Graffiti" },
-              { src: "/images/gallery4.jpg", alt: "Modern Street Art" },
-              { src: "/images/gallery5.jpg", alt: "Abstract Spray" },
-              { src: "/images/gallery6.jpg", alt: "Nature & Art" },
-            ] as const
-          ).map((img, i) => (
-            <div
-              key={img.src}
-              className={`bg-[#23232b] text-gray-200 shadow-xl rounded-2xl border-0 md:border-2 ${
-                i % 3 === 0
-                  ? "md:border-pink-600"
-                  : i % 3 === 1
-                  ? "md:border-yellow-400"
-                  : "md:border-indigo-400"
-              } overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03] group flex flex-col`}
-            >
-              <div className="relative">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="object-cover w-full h-40 xs:h-52 sm:h-64 transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-2xl">
-                  <span className="text-gray-300 text-lg font-semibold p-4 font-akadylan">
-                    {img.alt}
-                  </span>
-                </div>
-              </div>
-            </div>
           ))}
         </div>
-        <p className="mt-6 text-center text-gray-500 text-lg font-akadylan">
+        <p className="mt-12 text-center text-gray-400 text-lg font-akadylan">
           More coming soon. Want your art featured?{" "}
           <a
             href="#contact"

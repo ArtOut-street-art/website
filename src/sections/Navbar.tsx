@@ -4,124 +4,63 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="bg-[#18181b] border-b border-gray-800 shadow-lg sticky top-0 z-50 transition-all duration-300">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-1.5 px-4 sm:py-2 sm:px-8 lg:px-12">
-        <a href="#home" className="flex items-center gap-2">
-          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white font-artout drop-shadow leading-none">
-            artOut
+    <nav className="bg-[#18181b] border-b border-gray-800 shadow-lg sticky top-0 z-50 transition-all duration-300 w-full max-w-full overflow-x-hidden">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 sm:px-6 w-full">
+        <a href="#home" className="flex items-center gap-2 min-w-0">
+          <span className="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white font-artout drop-shadow">
+            ArtOut
           </span>
         </a>
         <button
-          className="md:hidden text-3xl text-gray-200 p-2 ml-2"
+          className="md:hidden text-3xl text-gray-200"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
         >
           ☰
         </button>
-        {/* Desktop nav */}
-        <div className="hidden md:flex flex-row space-x-6 lg:space-x-10 text-gray-200 text-lg font-semibold items-center">
-          <a
-            href="#home"
-            className="hover:text-pink-400 transition-colors duration-200 py-2"
-          >
-            Home
-          </a>
-          <a
-            href="#features"
-            className="hover:text-pink-400 transition-colors duration-200 py-2"
-          >
-            Features
-          </a>
-          <a
-            href="#about"
-            className="hover:text-pink-400 transition-colors duration-200 py-2"
-          >
-            About
-          </a>
-          <a
-            href="#mission"
-            className="hover:text-pink-400 transition-colors duration-200 py-2"
-          >
-            Mission
-          </a>
-          <a
-            href="#gallery"
-            className="hover:text-pink-400 transition-colors duration-200 py-2"
-          >
-            Gallery
-          </a>
-          <a
-            href="#contact"
-            className="hover:text-pink-400 transition-colors duration-200 py-2"
-          >
-            Contact
-          </a>
-        </div>
-        {/* Mobile drawer */}
         <div
-          className={`fixed inset-0 bg-black/70 z-50 transition-opacity duration-300 ${
-            open
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          } md:hidden`}
-          onClick={() => setOpen(false)}
+          className={`${
+            open ? "block" : "hidden"
+          } absolute top-full right-0 w-full bg-[#18181b] shadow-lg md:static md:block md:bg-transparent md:shadow-none transition-all duration-300`}
         >
-          <nav
-            className={`absolute top-0 right-0 h-full w-4/5 max-w-xs bg-[#18181b] shadow-2xl flex flex-col pt-8 px-6 transition-transform duration-300 ${
-              open ? "translate-x-0" : "translate-x-full"
-            }`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="self-end text-3xl text-gray-400 mb-8"
-              onClick={() => setOpen(false)}
-              aria-label="Close menu"
-            >
-              ×
-            </button>
+          <div className="flex flex-col md:flex-row md:space-x-8 text-white text-lg px-6 md:px-0 py-4 md:py-0 justify-end items-end md:items-center w-full max-w-full overflow-x-hidden">
             <a
               href="#home"
-              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
-              onClick={() => setOpen(false)}
+              className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Home
             </a>
             <a
               href="#features"
-              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
-              onClick={() => setOpen(false)}
+              className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Features
             </a>
             <a
               href="#about"
-              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
-              onClick={() => setOpen(false)}
+              className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               About
             </a>
             <a
               href="#mission"
-              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
-              onClick={() => setOpen(false)}
+              className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Mission
             </a>
             <a
               href="#gallery"
-              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
-              onClick={() => setOpen(false)}
+              className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Gallery
             </a>
             <a
               href="#contact"
-              className="py-3 px-2 text-gray-200 text-lg font-semibold hover:text-pink-400 transition-colors"
-              onClick={() => setOpen(false)}
+              className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Contact
             </a>
-          </nav>
+          </div>
         </div>
       </div>
     </nav>

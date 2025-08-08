@@ -1,41 +1,72 @@
+import mobileImage from "/images/mobile-image.png";
+import mobileMap from "/images/mobile-map.png";
+import mobileTour from "/images/mobile-tour.png";
+
 const mobileAppImages = [
-  // Replace these URLs with direct image links from your LinkedIn posts or your /images folder
-  "https://media.licdn.com/dms/image/D4E22AQF7Qn6kQw8w9g/feedshare-shrink_800/0/1717430000000?e=1721865600&v=beta&t=example1",
-  "https://media.licdn.com/dms/image/D4E22AQG8j8kQw8w9g/feedshare-shrink_800/0/1717430000001?e=1721865600&v=beta&t=example2",
-  "https://media.licdn.com/dms/image/D4E22AQH9kQw8w9g/feedshare-shrink_800/0/1717430000002?e=1721865600&v=beta&t=example3",
+  {
+    src: mobileMap,
+    alt: "Interactive Map View",
+    desc: "Browse a live map of street art locations near you.",
+    border: "border-pink-600",
+  },
+  {
+    src: mobileImage,
+    alt: "Artwork Details Screen",
+    desc: "See detailed info and images for each artwork.",
+    border: "border-yellow-400",
+  },
+  {
+    src: mobileTour,
+    alt: "Curated Art Tours",
+    desc: "Follow curated tours to discover local art scenes.",
+    border: "border-indigo-400",
+  },
 ];
 
 export default function MobileAppShowcase() {
   return (
-    <section id="mobile-app" className="py-16 bg-[#18181b]">
-      <div className="max-w-5xl mx-auto px-4 text-center">
+    <section
+      id="mobile-app"
+      className="py-24 bg-[#18181b] w-full max-w-full overflow-x-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-2 sm:px-6">
         <h2
-          className="text-6xl md:text-7xl font-bold mb-6 text-white drop-shadow tracking-tight text-center"
-          style={{ textShadow: "3px 3px 12px #000", letterSpacing: "0.04em" }}
+          className="text-5xl font-bold mb-14 text-yellow-400 text-center font-sunda tracking-tight"
+          style={{ textShadow: "2px 2px 8px #000" }}
         >
           ArtOut on Mobile
         </h2>
-        <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-sunda">
-          Snap, tag, and explore street art in real time—wherever you are. No
-          sign-in required. Tag art anonymously and see it appear instantly on
-          the map for everyone to discover.
+        <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-sunda text-center">
+          Explore our mobile app screenshots—see how ArtOut brings real-time
+          street art mapping to your fingertips.
         </p>
-        <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
-          {mobileAppImages.map((src, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {mobileAppImages.map((img, i) => (
             <div
-              key={i}
-              className="bg-[#23232b] rounded-2xl shadow-xl p-4 flex flex-col items-center border-2 border-yellow-400 w-[220px]"
+              key={img.src}
+              className={`bg-[#23232b] text-white shadow-xl rounded-2xl border-2 ${img.border} overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03] group flex flex-col items-center`}
             >
-              <img
-                src={src}
-                alt={`ArtOut mobile app screenshot ${i + 1}`}
-                className="rounded-xl shadow-lg w-[180px] h-[380px] object-cover bg-[#23232b]"
-                style={{ border: "4px solid #23232b" }}
-              />
+              <div className="relative w-full flex justify-center">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="object-cover w-[180px] h-[380px] rounded-xl shadow-lg bg-[#23232b] transition-transform duration-300 group-hover:scale-105 mt-6"
+                  style={{ border: "4px solid #23232b" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-2xl" />
+              </div>
+              <div className="p-4 pb-6 flex flex-col items-center">
+                <span className="text-lg font-semibold font-akadylan text-white text-center">
+                  {img.alt}
+                </span>
+                <span className="text-gray-300 text-base mt-2 text-center font-sunda">
+                  {img.desc}
+                </span>
+              </div>
             </div>
           ))}
         </div>
-        <p className="mt-8 text-gray-400 text-base">
+        <p className="mt-12 text-center text-gray-400 text-lg font-akadylan">
           See more on our{" "}
           <a
             href="https://www.linkedin.com/company/artout-app/posts/?feedView=all"
