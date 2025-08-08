@@ -93,7 +93,7 @@ export default function Footer() {
                 alt="Twitter"
                 className="w-5 h-5"
               />
-              Twitter (Coming Soon)
+              Twitter(Coming Soon)
             </span>
             <span className="flex items-center gap-1 text-gray-500 italic">
               <img
