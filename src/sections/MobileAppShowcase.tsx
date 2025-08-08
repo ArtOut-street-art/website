@@ -41,7 +41,7 @@ export default function MobileAppShowcase() {
           street art mapping to your fingertips.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {mobileAppImages.map((img, i) => (
+          {mobileAppImages.map((img) => (
             <div
               key={img.src}
               className={`bg-[#23232b] text-white shadow-xl rounded-2xl border-2 ${img.border} overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03] group flex flex-col items-center`}
