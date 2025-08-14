@@ -1,63 +1,39 @@
 export default function About() {
   return (
-    <section
-      id="about"
-      className="py-20 relative overflow-hidden w-full max-w-full overflow-x-hidden"
-    >
-      <div className="max-w-6xl mx-auto px-2 sm:px-6 text-center relative z-30">
-        <h2
-          className="text-5xl font-extrabold mb-8 text-pink-400 font-artout drop-shadow"
-          style={{ textShadow: "2px 2px 8px #000" }}
-        >
-          About <span className="text-yellow-400 font-artout">ArtOut</span>
+    <section id="about" className="py-16 w-full max-w-full bg-[#18181b]">
+      <div className="max-w-5xl mx-auto px-4 text-center">
+        <h2 className="text-5xl font-extrabold mb-6 text-gray-100 font-artout tracking-tight">
+          About ArtOut
         </h2>
-        <p className="text-xl text-white mb-12">
-          ArtOut is a global platform and mobile app for discovering, capturing,
-          and mapping street art in real time. Snap a photo and instantly pin it
-          to a global map—no uploads, no filters, just live, authentic urban
-          creativity. See the world through its street art.
+        <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-10 max-w-3xl mx-auto">
+          ArtOut is the ultra‑light, field‑ready way to document street art
+          before it disappears. Open the app—point, snap, done. We auto‑resolve
+          city / suburb / street and pin a live, unedited photo to the shared
+          map in seconds. No accounts, no feeds, no filters—just a bottom‑up,
+          time‑stamped atlas of murals, tags, paste‑ups and interventions from
+          Melbourne laneways to Brooklyn freight walls. Each capture preserves
+          context (where), temporality (when) and texture (raw image) so
+          ephemeral culture survives repaint, buff or demolition. See cities
+          through their walls—and help build the living archive.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {/* Mission Card */}
-          <div className="bg-[#23232b] rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-pink-600 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03]">
-            <span className="text-4xl mb-3">🎯</span>
-            <h3 className="text-2xl font-bold text-pink-400 mb-3">
-              Our Mission
-            </h3>
-            <p className="text-gray-200 text-base">
-              We’re on a mission to make street art accessible and
-              unforgettable. By letting anyone instantly share art at its real
-              location, we’re building a living, breathing archive of
-              creativity—one snap at a time.
-            </p>
-          </div>
-          {/* Vision Card */}
-          <div className="bg-[#23232b] rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-indigo-400 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03]">
-            <span className="text-4xl mb-3">👁️</span>
-            <h3 className="text-2xl font-bold text-indigo-300 mb-3">
-              Our Vision
-            </h3>
-            <p className="text-gray-200 text-base">
-              We imagine a world where every wall, alley, and city is mapped and
-              celebrated for its art. ArtOut empowers artists and explorers
-              everywhere—no barriers, no boundaries, just pure urban expression
-              for all to discover.
-            </p>
-          </div>
-        </div>
-        <div className="bg-[#23232b] rounded-2xl shadow-lg p-8 mt-8 flex flex-col items-center border-2 border-yellow-400 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03]">
-          <span className="text-3xl mb-2">🚀</span>
-          <h3 className="text-2xl font-bold text-yellow-400 mb-2">
-            Join Us While It’s Underground
+        <div className="bg-[#23232b] rounded-xl p-8 shadow-lg max-w-3xl mx-auto">
+          <h3 className="text-xl md:text-2xl font-semibold text-gray-200 mb-4">
+            Why It Matters
           </h3>
-          <p className="text-gray-200 text-base mb-2">
-            We’re building the global archive of free, public creativity — and
-            you can be part of it from day one.
+          <ul className="text-xs sm:text-sm text-gray-400 space-y-2">
+            <li>
+              • Ephemeral culture fades fast; lightweight capture extends life.
+            </li>
+            <li>• A bottom‑up atlas: built by walkers, riders, wanderers.</li>
+            <li>
+              • Context + coordinates &gt; algorithmic noise & endless scroll.
+            </li>
+          </ul>
+          <p className="mt-6 text-pink-300 text-xs sm:text-sm italic">
+            Snap • Pin • Preserve. #ArtOut #StreetArt #UrbanCulture
           </p>
-          <span className="italic text-pink-300">
-            Snap. Discover. Remember.
-          </span>
         </div>
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent mt-14" />
       </div>
     </section>
   );

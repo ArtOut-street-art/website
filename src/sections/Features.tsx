@@ -2,67 +2,73 @@ export default function Features() {
   return (
     <section
       id="features"
-      className="py-20 w-full max-w-full overflow-x-hidden"
+      className="py-16 sm:py-20 w-full max-w-full overflow-x-hidden bg-[#18181b]"
     >
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
         <h2
-          className="text-5xl font-artout font-extrabold mb-12 text-gray-300 drop-shadow tracking-tight"
+          className="text-3xl sm:text-4xl md:text-5xl font-artout font-extrabold mb-8 sm:mb-12 text-gray-300 drop-shadow tracking-tight"
           style={{ letterSpacing: "0.04em" }}
         >
           Features
         </h2>
         {/* Feature/benefit blocks */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="bg-[#23232b] rounded-2xl shadow-lg p-6 flex flex-col items-center">
-            <span className="text-3xl mb-2">📍</span>
-            <h3 className="text-xl font-bold text-gray-300 mb-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-10">
+          <div className="bg-[#23232b] rounded-xl p-4 sm:p-6 flex flex-col items-center min-h-[400px]">
+            <span className="text-2xl sm:text-3xl mb-3">📍</span>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-300 mb-3 text-center">
               Instant Geotagging
             </h3>
-            <p className="text-gray-400 text-base">
-              Capture street art in the moment — no uploads, no hassle. ArtOut
-              instantly tags your photo with the exact location: city, street,
-              and country. Every snap becomes part of a living archive.
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed text-center mb-4 flex-grow">
+              Snap once—ArtOut pins the exact street, suburb, and country
+              instantly. No manual forms, no upload queue. Your find becomes
+              part of a living public archive in seconds.
             </p>
-            <img
-              src="/images/gallery/nature-3.jpg"
-              alt="Geotag example"
-              className="rounded-lg mt-4 w-full h-32 object-cover"
-            />
+            <div className="w-full h-32 rounded-lg overflow-hidden mt-auto">
+              <img
+                src="/images/gallery/nature-3.jpg"
+                alt="Geotag example"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
-          <div className="bg-[#23232b] rounded-2xl shadow-lg p-6 flex flex-col items-center">
-            <span className="text-3xl mb-2">🌍</span>
-            <h3 className="text-xl font-bold text-gray-300 mb-2">
+          <div className="bg-[#23232b] rounded-xl p-4 sm:p-6 flex flex-col items-center min-h-[400px]">
+            <span className="text-2xl sm:text-3xl mb-3">🌍</span>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-300 mb-3 text-center">
               A Worldwide Street Gallery
             </h3>
-            <p className="text-gray-400 text-base">
-              Wander through hidden alleyways in Tokyo, rooftops in New York,
-              and laneways in Melbourne — all without leaving your screen. Every
-              tag adds a new piece to the map. Every user becomes a curator of
-              creativity.
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed text-center mb-4 flex-grow">
+              Jump between cities through real discoveries—not polished promos.
+              Explore organic layers of murals, tags, and paste‑ups people just
+              mapped moments ago.
             </p>
-            <img
-              src="/images/gallery/abstract-3.jpg"
-              alt="Street art"
-              className="rounded-lg mt-4 w-full h-32 object-cover"
-            />
+            <div className="w-full h-32 rounded-lg overflow-hidden mt-auto">
+              <img
+                src="/images/gallery/abstract-3.jpg"
+                alt="Street art"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
-          <div className="bg-[#23232b] rounded-2xl shadow-lg p-6 flex flex-col items-center">
-            <span className="text-3xl mb-2">🖌️</span>
-            <h3 className="text-xl font-bold text-gray-300 mb-2">
+          <div className="bg-[#23232b] rounded-xl p-4 sm:p-6 flex flex-col items-center min-h-[400px]">
+            <span className="text-2xl sm:text-3xl mb-3">🖌️</span>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-300 mb-3 text-center">
               Preserve What Fades
             </h3>
-            <p className="text-gray-400 text-base">
-              Street art is fleeting — walls get painted over, buildings get
-              demolished. ArtOut captures these moments in time so they’re never
-              lost. We’re not just mapping art, we’re archiving culture.
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed text-center mb-4 flex-grow">
+              Paint gets buffed. Walls get rebuilt. Your captures preserve
+              texture, style, and place—creating a time capsule of urban culture
+              that would otherwise vanish.
             </p>
-            <img
-              src="/images/gallery/modern-3.jpg"
-              alt="Urban graffiti"
-              className="rounded-lg mt-4 w-full h-32 object-cover"
-            />
+            <div className="w-full h-32 rounded-lg overflow-hidden mt-auto">
+              <img
+                src="/images/gallery/modern-3.jpg"
+                alt="Urban graffiti"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent mt-12" />
       </div>
     </section>
   );

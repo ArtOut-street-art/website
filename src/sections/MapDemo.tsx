@@ -78,44 +78,42 @@ export default function MapDemo() {
   return (
     <section
       id="map"
-      className="bg-[#18181b] min-h-[700px] flex flex-col justify-center pt-0 pb-16"
+      className="bg-[#18181b] min-h-[700px] flex flex-col justify-center pt-0 pb-12 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-6 flex flex-col items-center mt-0">
         <h2 className="text-6xl md:text-7xl font-bold text-white text-center tracking-tight mb-6">
           Explore the Map
         </h2>
-        <p className="text-lg md:text-xl text-gray-200 text-center mb-4 max-w-3xl mx-auto font-sunda">
+        <p className="text-base md:text-lg text-gray-200 text-center mb-4 max-w-3xl mx-auto font-sunda leading-relaxed">
           Discover Melbourne’s legendary street art scene. Tap a marker to
           reveal the name and address.
         </p>
         {/* Tour Buttons */}
-        <div className="mb-6 flex flex-wrap justify-center gap-4">
+        <div className="mb-6 flex flex-wrap justify-center gap-3">
           <button
             onClick={() => {
               setSelectedTour("");
-              if (window.innerWidth < 768) {
+              if (window.innerWidth < 768)
                 mapContainerRef.current?.scrollIntoView({ behavior: "smooth" });
-              }
             }}
-            className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors ${
-              selectedTour === "" ? "border-2 border-yellow-400" : ""
+            className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition ${
+              selectedTour === "" ? "ring-1 ring-gray-500" : ""
             }`}
           >
-            View All Stops
+            All Stops
           </button>
           {dataset.tours.map((tour) => (
             <button
               key={tour.id}
               onClick={() => {
                 setSelectedTour(tour.id);
-                if (window.innerWidth < 768) {
+                if (window.innerWidth < 768)
                   mapContainerRef.current?.scrollIntoView({
                     behavior: "smooth",
                   });
-                }
               }}
-              className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition-colors ${
-                selectedTour === tour.id ? "border-2 border-yellow-400" : ""
+              className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition ${
+                selectedTour === tour.id ? "ring-1 ring-gray-500" : ""
               }`}
             >
               {tour.name}
@@ -126,7 +124,7 @@ export default function MapDemo() {
         {/* Map Container */}
         <div
           ref={mapContainerRef}
-          className="w-full rounded-xl overflow-hidden shadow-2xl border-4 border-yellow-400 bg-black flex items-center justify-center"
+          className="w-full rounded-xl overflow-hidden shadow-xl bg-black flex items-center justify-center"
           style={{ minHeight: "500px", maxHeight: "700px", height: "60vh" }}
         >
           <MapWrapper
@@ -141,29 +139,25 @@ export default function MapDemo() {
 
         {/* Guided Tour Card moved below the map */}
         {selectedTour === "" ? (
-          <div className="mt-6 mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
-            <h3 className="text-2xl font-artout font-bold text-white mb-2">
-              🗺️ Guided Street Art Tour
+          <div className="mt-6 p-5 bg-[#23232b] rounded-xl shadow-lg max-w-xl text-center">
+            <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
+              Guided Street Art Tour
             </h3>
-            <p className="text-gray-200 mb-2">
-              Follow our curated route through Melbourne’s most iconic laneways.
-              Each stop is packed with color, history, and stories.
-            </p>
-            <button className="mt-2 px-4 py-2 bg-yellow-400 text-black font-bold rounded-full shadow hover:bg-yellow-300 transition-colors">
-              Start Tour
-            </button>
-            <p className="mt-2 text-gray-400">
-              Click above tours to see more details.
+            <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-1">
+              Explore anchor lanes and mural corridors. Pick a preset to draw a
+              clean path—great for first‑time wanderers or quick inspiration.
             </p>
           </div>
         ) : (
-          <div className="mt-6 mb-6 p-6 bg-gray-800 rounded-2xl shadow-xl max-w-xl text-center">
-            <h3 className="text-2xl font-artout font-bold text-white mb-2">
-              Guided Tour Details
+          <div className="mt-6 p-5 bg-[#23232b] rounded-xl shadow-lg max-w-xl text-center">
+            <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
+              {currentTour?.name}
             </h3>
-            <p className="text-gray-200">{currentTour?.description}</p>
-            <p className="mt-2 text-gray-400">
-              Approx. {currentTour?.approx_distance_km} km •{" "}
+            <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+              {currentTour?.description}
+            </p>
+            <p className="text-gray-500 text-[10px] md:text-xs mt-2">
+              ~{currentTour?.approx_distance_km} km •{" "}
               {currentTour?.est_time_min} min
             </p>
           </div>
@@ -178,6 +172,7 @@ export default function MapDemo() {
           </a>
           !)
         </p>
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent mt-12 w-full" />
       </div>
     </section>
   );

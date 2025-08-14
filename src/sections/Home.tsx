@@ -13,52 +13,54 @@ export default function Home() {
     <section
       id="home"
       className="relative flex flex-col items-center justify-center min-h-screen h-screen w-full max-w-full py-0 overflow-hidden"
-      style={{
-        backgroundImage: "url('/images/bg-floral.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
-      <div className="absolute inset-0 bg-black/95 z-0" />
+      {/* Background image */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/bg-floral.jpg')" }}
+        aria-hidden="true"
+      />
+      {/* Overlay */}
+      <div className="absolute inset-0 z-0 bg-black/92" aria-hidden="true" />
       {/* Spray trail canvas */}
       <div
         ref={trailRef}
         className="absolute inset-0 z-30"
         style={{ pointerEvents: "none" }}
       />
-      <div className="relative z-20 flex flex-col items-center justify-center w-full h-full text-center px-2 sm:px-4">
+      <div className="relative z-20 flex flex-col items-center justify-center w-full h-full text-center px-4 sm:px-6 pt-20 pb-24">
         <img
           src="/images/artout-logo.png"
           alt="ArtOut Logo"
-          className="w-28 h-28 mb-6 object-contain"
+          className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mb-4 sm:mb-6 object-contain"
         />
-        <h1 className="text-6xl md:text-7xl  text-white font-artout mb-4 transition-all duration-500">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-artout mb-3 sm:mb-4 transition-all duration-500">
           ArtOut
         </h1>
-        <p className="mt-2 text-2xl md:text-3xl text-white/90 font-semibold font-sunda mb-6">
+        <p className="mt-2 text-lg sm:text-xl md:text-2xl text-white/90 font-semibold font-sunda mb-3 sm:mb-4">
           Graffiti & Street Art Around the World
         </p>
-        <p className="mt-2 max-w-2xl mx-auto text-lg md:text-xl text-white/80 font-akadylan mb-8 text-center">
-          Discover, capture, and share the world’s most vibrant street art—live
+        <p className="mt-2 max-w-xl sm:max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed text-white/80 font-akadylan mb-6 sm:mb-8 text-center px-2">
+          Discover, capture, and share the world's most vibrant street art—live
           and on location. ArtOut lets you instantly snap and geotag graffiti,
           murals, and urban art wherever you find it. No uploads, no filters, no
-          barriers—just real art, mapped in real time. See the world through its
-          walls.
+          barriers—just real art, mapped in real time.
         </p>
         <a
           href="#features"
-          className="inline-block bg-pink-600 text-white font-sunda font-bold px-8 py-3 rounded-full shadow-lg hover:bg-yellow-400 hover:text-black transition-colors duration-300 text-lg mt-2"
+          className="inline-block bg-pink-600 text-white font-sunda font-bold px-6 sm:px-8 py-2 sm:py-3 rounded-full shadow-lg hover:bg-yellow-400 hover:text-black transition-colors duration-300 text-sm sm:text-base md:text-lg mt-2"
         >
           Explore Features
         </a>
       </div>
-      {/* Ensure the arrow is always visible and not cut off */}
-      <div
-        className="absolute left-1/2 -translate-x-1/2 z-30"
-        style={{ bottom: 24 }}
-      >
-        <span className="text-white text-3xl animate-bounce">↓</span>
+      {/* Arrow with better positioning */}
+      <div className="absolute left-1/2 -translate-x-1/2 z-30 bottom-8 sm:bottom-12 md:bottom-16 hidden sm:block">
+        <span className="text-white text-xl sm:text-2xl md:text-3xl animate-bounce drop-shadow-lg">
+          ↓
+        </span>
       </div>
+      {/* Section divider */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent pointer-events-none" />
     </section>
   );
 }

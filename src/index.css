@@ -4,30 +4,35 @@
 @font-face {
   font-family: 'Bricks';
   src: url('/fonts/Goldsaber.otf') format('opentype');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
-}
-@layer utilities {
-  .xs\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
-  .xs\:text-5xl { font-size: 3rem; line-height: 1; }
-  .xs\:max-w-md { max-width: 20rem; }
 }
 
 .font-artout {
   font-family: 'Bricks', cursive, sans-serif !important;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.4em;
+  font-weight: 90;
   line-height: 1.1;
-  font-weight: 0;
+  text-shadow: 2px 4px 12px rgba(0,0,0,0.18), 0 1px 0 #fff;
+  max-font-size: 4rem; /* Prevent excessive scaling */
 }
 
+/* Ensure all images are responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent horizontal overflow */
+* {
+  box-sizing: border-box;
+}
 
 body {
-  background-image: url('/images/bg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 10vh;
-  font-family: 'Inter', 'Open Sans', Arial, sans-serif;
+  background: #18181b;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 html { scroll-behavior: smooth; }
 

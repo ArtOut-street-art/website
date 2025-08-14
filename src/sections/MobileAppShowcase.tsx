@@ -2,24 +2,22 @@ import mobileImage from "/images/mobile-image.png";
 import mobileMap from "/images/mobile-map.png";
 import mobileTour from "/images/mobile-tour.png";
 
+// ...existing data (images + captions can remain simpler for this layout)...
 const mobileAppImages = [
   {
     src: mobileMap,
-    alt: "Interactive Map View",
-    desc: "Browse a live map of street art locations near you.",
-    border: "border-pink-600",
+    alt: "Live map nearby",
+    caption: "Instant walls around you.",
   },
   {
     src: mobileImage,
-    alt: "Artwork Details Screen",
-    desc: "See detailed info and images for each artwork.",
-    border: "border-yellow-400",
+    alt: "Artwork detail view",
+    caption: "Raw image + location.",
   },
   {
     src: mobileTour,
-    alt: "Curated Art Tours",
-    desc: "Follow curated tours to discover local art scenes.",
-    border: "border-indigo-400",
+    alt: "Curated route mode",
+    caption: "Lightweight mural routes.",
   },
 ];
 
@@ -27,57 +25,49 @@ export default function MobileAppShowcase() {
   return (
     <section
       id="mobile-app"
-      className="py-24 bg-[#18181b] w-full max-w-full overflow-x-hidden"
+      className="py-16 sm:py-20 bg-[#18181b] w-full max-w-full"
     >
-      <div className="max-w-7xl mx-auto px-2 sm:px-6">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6">
         <h2
-          className="text-5xl font-bold mb-14 text-yellow-400 text-center font-sunda tracking-tight"
-          style={{ textShadow: "2px 2px 8px #000" }}
+          className="text-4xl sm:text-5xl font-bold mb-5 sm:mb-6 text-gray-100 text-center font-sunda tracking-tight"
+          style={{ textShadow: "2px 2px 6px #000" }}
         >
           ArtOut on Mobile
         </h2>
-        <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-sunda text-center">
-          Explore our mobile app screenshots—see how ArtOut brings real-time
-          street art mapping to your fingertips.
+        <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-10 max-w-2xl mx-auto font-sunda text-center leading-relaxed">
+          Field-first street art capture: open the map, spot a wall, snap, it’s
+          pinned. Explore new finds, open raw context, or trace a micro‑route.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {mobileAppImages.map((img) => (
+
+        {/* Restored unified height strip */}
+        <div
+          className="relative w-full rounded-xl flex gap-10 sm:gap-12 justify-center items-end bg-[#23232b]/40 p-6 overflow-x-auto snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+          style={{ height: "60vh", minHeight: "500px", maxHeight: "700px" }}
+        >
+          {mobileAppImages.map((img, i) => (
             <div
               key={img.src}
-              className={`bg-[#23232b] text-white shadow-xl rounded-2xl border-2 ${img.border} overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.03] group flex flex-col items-center`}
+              className="flex flex-col items-center snap-center h-full"
             >
-              <div className="relative w-full flex justify-center">
+              <div className="h-full flex items-end">
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className="object-cover w-[180px] h-[380px] rounded-xl shadow-lg bg-[#23232b] transition-transform duration-300 group-hover:scale-105 mt-6"
-                  style={{ border: "4px solid #23232b" }}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  className="h-full w-auto max-w-[26vw] min-w-[170px] object-cover rounded-2xl shadow-2xl ring-1 ring-gray-700/40 transition-transform duration-300 hover:scale-[1.04]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-2xl" />
               </div>
-              <div className="p-4 pb-6 flex flex-col items-center">
-                <span className="text-lg font-semibold font-akadylan text-white text-center">
-                  {img.alt}
-                </span>
-                <span className="text-gray-300 text-base mt-2 text-center font-sunda">
-                  {img.desc}
-                </span>
-              </div>
+              <span className="mt-4 text-xs sm:text-sm text-gray-200 font-medium tracking-wide text-center max-w-[11rem]">
+                {img.alt}
+              </span>
+              <span className="mt-1 text-[10px] sm:text-xs text-gray-500 text-center max-w-[11rem] leading-snug">
+                {img.caption}
+              </span>
             </div>
           ))}
         </div>
-        <p className="mt-12 text-center text-gray-400 text-lg font-akadylan">
-          See more on our{" "}
-          <a
-            href="https://www.linkedin.com/company/artout-app/posts/?feedView=all"
-            className="text-pink-400 underline hover:text-yellow-400 transition-colors font-medium"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn page
-          </a>
-          !
-        </p>
+
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent mt-12" />
       </div>
     </section>
   );

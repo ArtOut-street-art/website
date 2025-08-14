@@ -6,3 +6,13 @@ html, body, #root {
   max-width: 100vw;
   overflow-x: hidden;
 }
+
+/* Floral background utility */
+.floral-bg {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)),
+    url('/images/bg-floral.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

@@ -9,7 +9,7 @@ export default function MissionVision() {
               Our Mission
             </h3>
           </div>
-          <p className="text-lg text-gray-200 font-akadylan mb-2">
+          <p className="text-base md:text-lg text-gray-200 font-akadylan mb-2 leading-relaxed">
             ArtOut exists to turn courageous ideas into working products while
             giving volunteers a place to learn, ship, and shine. We rally
             builders and founders around a single goal:{" "}
@@ -26,7 +26,7 @@ export default function MissionVision() {
               Our Vision
             </h3>
           </div>
-          <p className="text-lg text-gray-200 font-akadylan mb-2">
+          <p className="text-base md:text-lg text-gray-200 font-akadylan mb-2 leading-relaxed">
             We imagine a world where talent and ambition are all you need to
             build a startup—funding optional. Every city, every wall, every
             artist: mapped, celebrated, and shared.

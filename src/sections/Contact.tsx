@@ -2,14 +2,12 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative py-24 w-full max-w-full overflow-x-hidden"
+      className="relative py-20 w-full max-w-full overflow-x-hidden"
     >
       {/* Background image */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/bg.jpg')",
-        }}
+        style={{ backgroundImage: "url('/images/bg-floral.jpg')" }}
         aria-hidden="true"
       />
       {/* Overlay */}
@@ -22,7 +20,7 @@ export default function Contact() {
         >
           Get in Touch
         </h2>
-        <p className="text-lg text-white mb-6 font-akadylan">
+        <p className="text-base md:text-lg text-white mb-6 font-akadylan leading-relaxed">
           Want to collaborate, share art, or just say hi? Reach out to us!
         </p>
         <a
@@ -36,6 +34,7 @@ export default function Contact() {
         <div className="mt-6 flex justify-center gap-6">
           {/* Add social icons/links here if needed */}
         </div>
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent mt-14" />
       </div>
     </section>
   );
