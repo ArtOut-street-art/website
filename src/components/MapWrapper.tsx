@@ -14,6 +14,9 @@ interface MarkerData {
   position: [number, number];
   name: string;
   address: string;
+  artCount?: number; // cluster count
+  isCluster?: boolean; // cluster flag
+  active?: boolean; // highlight state
 }
 
 interface MapWrapperProps {
@@ -23,6 +26,7 @@ interface MapWrapperProps {
   polylinePositions?: [number, number][];
   polylineColor?: string;
   bounds?: L.LatLngBoundsExpression;
+  onMarkerClick?: (id: string) => void; // NEW
 }
 
 export function MapWrapper({
@@ -32,34 +36,72 @@ export function MapWrapper({
   polylinePositions,
   polylineColor,
   bounds,
+  onMarkerClick,
 }: MapWrapperProps) {
   return (
     <MapContainer
       center={center}
       zoom={zoom}
       style={{ width: "100%", height: "100%" }}
-      scrollWheelZoom={true}
+      scrollWheelZoom
       className="rounded-xl"
     >
       <TileLayer
-        attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © CARTO'
+        attribution='© <a href="https://www.openstreetmap.org/copyright">OSM</a>'
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       />
-      {markers.map((marker) => (
-        <Marker key={marker.id} position={marker.position}>
-          <Popup>
-            <div style={{ minWidth: 180, maxWidth: 220 }}>
-              <strong style={{ fontSize: "16px", fontWeight: "500" }}>
-                {marker.name}
-              </strong>
-              <br />
-              <span style={{ fontSize: "13px", lineHeight: "1.4" }}>
-                {marker.address}
-              </span>
-            </div>
-          </Popup>
-        </Marker>
-      ))}
+      {markers.map((m) => {
+        const isCluster = !!m.isCluster;
+        const icon = isCluster
+          ? L.divIcon({
+              className: `artout-cluster ${m.active ? "active" : ""}`,
+              html: `<div class="cluster-circle" role="button" aria-label="${
+                m.name
+              } (${m.artCount ?? 0} artworks)">
+                       <span class="count">${m.artCount ?? ""}</span>
+                     </div>`,
+              iconSize: [46, 46],
+              iconAnchor: [23, 23],
+            })
+          : undefined;
+
+        // Only spread icon prop if defined (avoids Leaflet createIcon error)
+        const markerProps: any = {
+          key: m.id,
+          position: m.position,
+          eventHandlers: onMarkerClick
+            ? { click: () => onMarkerClick(m.id) }
+            : undefined,
+        };
+        if (icon) markerProps.icon = icon;
+
+        return (
+          <Marker {...markerProps}>
+            <Popup>
+              <div style={{ minWidth: 170, maxWidth: 240 }}>
+                <strong style={{ fontSize: 15, fontWeight: 500 }}>
+                  {m.name}
+                </strong>
+                <br />
+                <span style={{ fontSize: 12, lineHeight: "1.4" }}>
+                  {m.address}
+                </span>
+                {isCluster && (
+                  <>
+                    <br />
+                    <span style={{ fontSize: 11, color: "#888" }}>
+                      {m.artCount ?? 0} artwork
+                      {m.artCount === 1 ? "" : "s"}
+                    </span>
+                    <br />
+                    <em style={{ fontSize: 11 }}>Click to expand</em>
+                  </>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        );
+      })}
       {polylinePositions && polylinePositions.length > 1 && (
         <Polyline
           positions={polylinePositions}

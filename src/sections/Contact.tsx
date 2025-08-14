@@ -15,7 +15,7 @@ export default function Contact() {
       {/* Content */}
       <div className="relative z-10 max-w-2xl mx-auto px-2 sm:px-4 text-center">
         <h2
-          className="text-5xl font-extrabold mb-8 text-yellow-400 font-sunda drop-shadow"
+          className="text-5xl font-extrabold mb-8 text-artout-yellow font-sunda drop-shadow"
           style={{ textShadow: "2px 2px 8px #000" }}
         >
           Get in Touch

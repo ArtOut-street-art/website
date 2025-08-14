@@ -29,10 +29,11 @@ export default function MobileAppShowcase() {
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-6">
         <h2
-          className="text-4xl sm:text-5xl font-bold mb-5 sm:mb-6 text-gray-100 text-center font-sunda tracking-tight"
+          className="text-4xl sm:text-5xl font-bold mb-5 sm:mb-6 text-gray-100 text-center font-sunda tracking-tight relative"
           style={{ textShadow: "2px 2px 6px #000" }}
         >
           ArtOut on Mobile
+          <span className="block mx-auto mt-3 h-[3px] w-24 rounded-full bg-gradient-to-r from-artout-blue/10 via-artout-blue to-artout-blue/10" />
         </h2>
         <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-10 max-w-2xl mx-auto font-sunda text-center leading-relaxed">
           Field-first street art capture: open the map, spot a wall, snap, it’s

@@ -42,11 +42,12 @@ export default function Gallery() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center">
         <h2
-          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-10 text-yellow-400 text-center font-sunda tracking-tight"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-10 text-artout-yellow text-center font-sunda tracking-tight"
           style={{ textShadow: "2px 2px 8px #000" }}
         >
           Street Art Gallery
         </h2>
+        <div className="h-[3px] w-28 bg-gradient-to-r from-artout-yellow via-artout-blue to-artout-yellow rounded-full mb-6 sm:mb-8" />
         <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-3xl mx-auto mb-6 sm:mb-8 leading-relaxed text-center px-2">
           Street art is fragile—buffed, capped, repainted, erased. This gallery
           is a living archive: every capture is geotagged, time‑stamped, and

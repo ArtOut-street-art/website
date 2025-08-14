@@ -53,3 +53,59 @@ html { scroll-behavior: smooth; }
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
+
+/* Cluster marker styles */
+.artout-cluster .cluster-circle {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--artout-blue-accent) 0%, var(--artout-blue) 55%, var(--artout-blue-deep) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font: 600 13px/1.1 system-ui,sans-serif;
+  border: 2px solid var(--artout-blue-accent);
+  box-shadow: 0 4px 10px -2px rgba(0,0,0,.55),0 0 0 3px rgba(255,255,255,.05);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .22s;
+}
+.artout-cluster .cluster-circle .count { transform: translateY(1px); }
+.artout-cluster:hover .cluster-circle,
+.artout-cluster.active .cluster-circle { transform: scale(1.08); }
+.artout-cluster.active .cluster-circle {
+  border-color: var(--artout-yellow);
+  background: radial-gradient(circle at 35% 30%, var(--artout-yellow) 0%, var(--artout-yellow-accent) 55%, #d4aa1f 100%);
+  box-shadow: 0 0 0 4px rgba(248,210,77,.28), 0 6px 14px -2px rgba(0,0,0,.55);
+}
+@media (max-width:640px){
+  .artout-cluster .cluster-circle { width:40px;height:40px;font-size:11px; }
+}
+@media (max-width:640px) {
+  .artout-cluster .cluster-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 11px;
+  }
+  .artout-cluster .cluster-circle .count {
+    font-size: 12px;
+  }
+}
+
+/* Brand color palette */
+:root {
+  --artout-yellow: #f8d24d;
+  --artout-yellow-accent: #ffd866;
+  --artout-blue: #4e79ff;
+  --artout-blue-accent: #6d95ff;
+  --artout-blue-deep: #1d2f55;
+  --artout-pink: #f472b6;
+}
+
+/* Utility text classes */
+.text-artout-yellow { color: var(--artout-yellow) !important; }
+.text-artout-blue { color: var(--artout-blue) !important; }
+
+/* (Optional) buttons or emphasis */
+.bg-artout-blue { background: var(--artout-blue); }
+.bg-artout-yellow { background: var(--artout-yellow); color:#1a1a1a; }

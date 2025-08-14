@@ -1,255 +1,220 @@
-export const dataset = {
-  type: "FeatureCollection",
-  features: [
+export interface Artwork {
+  id: string;
+  title: string;
+  coordinates: [number, number]; // [lng, lat]
+  image?: string;
+  artist?: string | null;
+  year?: number | null;
+}
+export interface Cluster {
+  id: string;
+  name: string;
+  center: [number, number]; // [lng, lat]
+  address: string;
+  suburb: string;
+  art_count: number;
+  artworks: Artwork[];
+}
+export interface Tour {
+  id: string;
+  name: string;
+  mode: "walking";
+  description: string;
+  waypoints: [number, number][]; // [lng, lat]
+  est_distance_km: number;
+  est_time_min: number;
+}
+export interface ArtOutDataset {
+  type: "ArtOutDataset";
+  version: number;
+  clusters: Cluster[];
+  tours: Tour[];
+}
+
+// New dataset (lng, lat order in source)
+export const dataset: ArtOutDataset = {
+  type: "ArtOutDataset",
+  version: 1,
+  clusters: [
     {
-      id: 1,
-      type: "Feature",
-      properties: {
-        name: "Hosier Lane",
-        address: "Hosier Ln, Melbourne VIC 3000",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.96909, -37.81642],
-      },
+      id: "hosier",
+      name: "Hosier & Rutledge Lanes",
+      center: [144.9691, -37.8165],
+      address: "Hosier Ln, Melbourne VIC 3000",
+      suburb: "Melbourne CBD",
+      art_count: 6,
+      artworks: [
+        { id: "hosier-1", title: "Hosier Entry Wall", coordinates: [144.96906, -37.81639], image: "/art/hosier/1.jpg", artist: null, year: null },
+        { id: "hosier-2", title: "Stencil Stack", coordinates: [144.96919, -37.81633], image: "/art/hosier/2.jpg", artist: null, year: null },
+        { id: "hosier-3", title: "Laneway Pasteups", coordinates: [144.96924, -37.81649], image: "/art/hosier/3.jpg", artist: null, year: null },
+        { id: "hosier-4", title: "Rutledge Corner", coordinates: [144.96913, -37.81659], image: "/art/hosier/4.jpg", artist: null, year: null },
+        { id: "hosier-5", title: "Blue Portrait", coordinates: [144.96904, -37.81657], image: "/art/hosier/5.jpg", artist: null, year: null },
+        { id: "hosier-6", title: "Door Panel Collage", coordinates: [144.9693, -37.81643], image: "/art/hosier/6.jpg", artist: null, year: null }
+      ]
     },
     {
-      id: 2,
-      type: "Feature",
-      properties: {
-        name: "Rutledge Lane",
-        address: "Rutledge Ln, Melbourne CBD",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.9691, -37.81656],
-      },
+      id: "flinders-lanes",
+      name: "AC/DC Lane & Duckboard Pl",
+      center: [144.971, -37.8154],
+      address: "AC/DC Ln & Duckboard Pl, Melbourne VIC 3000",
+      suburb: "Melbourne CBD",
+      art_count: 4,
+      artworks: [
+        { id: "fl-1", title: "AC/DC Bolt", coordinates: [144.97086, -37.81552], image: "/art/flinders/1.jpg" },
+        { id: "fl-2", title: "Gig Posters", coordinates: [144.97105, -37.81547], image: "/art/flinders/2.jpg" },
+        { id: "fl-3", title: "Duckboard Mural", coordinates: [144.97124, -37.81525], image: "/art/flinders/3.jpg" },
+        { id: "fl-4", title: "Alley Pasteups", coordinates: [144.97115, -37.81533], image: "/art/flinders/4.jpg" }
+      ]
     },
     {
-      id: 3,
-      type: "Feature",
-      properties: {
-        name: "AC/DC Lane",
-        address: "AC/DC Ln, Melbourne CBD",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.97086, -37.81552],
-      },
+      id: "union-caledonian",
+      name: "Union & Caledonian Lanes",
+      center: [144.9649, -37.81215],
+      address: "Union Ln, Melbourne VIC 3000",
+      suburb: "Melbourne CBD",
+      art_count: 4,
+      artworks: [
+        { id: "uc-1", title: "Union Lane Wall", coordinates: [144.96497, -37.81208], image: "/art/union/1.jpg" },
+        { id: "uc-2", title: "Stickerbomb", coordinates: [144.96505, -37.812], image: "/art/union/2.jpg" },
+        { id: "uc-3", title: "Caledonian Corner", coordinates: [144.96454, -37.8122], image: "/art/union/3.jpg" },
+        { id: "uc-4", title: "Arcade Shutters", coordinates: [144.9647, -37.81218], image: "/art/union/4.jpg" }
+      ]
     },
     {
-      id: 4,
-      type: "Feature",
-      properties: {
-        name: "Duckboard Place",
-        address: "Duckboard Pl, Melbourne CBD",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.97124, -37.81525],
-      },
+      id: "presgrave",
+      name: "Presgrave Place (Framed Lane)",
+      center: [144.96534, -37.81507],
+      address: "Presgrave Pl, Melbourne VIC 3000",
+      suburb: "Melbourne CBD",
+      art_count: 3,
+      artworks: [
+        { id: "pg-1", title: "Mini Frames Wall", coordinates: [144.96533, -37.81508], image: "/art/presgrave/1.jpg" },
+        { id: "pg-2", title: "Gold Frame Niche", coordinates: [144.96529, -37.81502], image: "/art/presgrave/2.jpg" },
+        { id: "pg-3", title: "Shadowbox Cluster", coordinates: [144.96537, -37.8151], image: "/art/presgrave/3.jpg" }
+      ]
     },
     {
-      id: 5,
-      type: "Feature",
-      properties: {
-        name: "Union Lane",
-        address: "Union Ln, Melbourne CBD",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.96497, -37.81208],
-      },
+      id: "guildford",
+      name: "Guildford Lane",
+      center: [144.95923, -37.81152],
+      address: "Guildford Ln, Melbourne VIC 3000",
+      suburb: "Melbourne CBD",
+      art_count: 3,
+      artworks: [
+        { id: "gf-1", title: "Warehouse Wall", coordinates: [144.95917, -37.8116], image: "/art/guildford/1.jpg" },
+        { id: "gf-2", title: "Roller Door", coordinates: [144.95925, -37.81148], image: "/art/guildford/2.jpg" },
+        { id: "gf-3", title: "Laneway Corner", coordinates: [144.9593, -37.81155], image: "/art/guildford/3.jpg" }
+      ]
     },
     {
-      id: 6,
-      type: "Feature",
-      properties: {
-        name: "Caledonian Lane",
-        address: "Caledonian Ln, Melbourne CBD",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.96454, -37.8122],
-      },
+      id: "chinatown",
+      name: "Croft & Tattersalls Alleys",
+      center: [144.9689, -37.8116],
+      address: "Croft Alley, Melbourne VIC 3000",
+      suburb: "Chinatown (CBD)",
+      art_count: 4,
+      artworks: [
+        { id: "ct-1", title: "Croft Alley Bend", coordinates: [144.96878, -37.8117], image: "/art/chinatown/1.jpg" },
+        { id: "ct-2", title: "Croft Back Wall", coordinates: [144.9689, -37.81155], image: "/art/chinatown/2.jpg" },
+        { id: "ct-3", title: "Tattersalls Midway", coordinates: [144.96539, -37.81148], image: "/art/chinatown/3.jpg" },
+        { id: "ct-4", title: "Lantern Pasteups", coordinates: [144.96555, -37.81144], image: "/art/chinatown/4.jpg" }
+      ]
     },
     {
-      id: 7,
-      type: "Feature",
-      properties: {
-        name: "Croft Alley",
-        address: "Croft Alley, Chinatown",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.96878, -37.8117],
-      },
+      id: "haring-smith",
+      name: "Keith Haring Mural & Smith St",
+      center: [144.98681, -37.79938],
+      address: "Johnston St × Smith St, Collingwood",
+      suburb: "Collingwood",
+      art_count: 3,
+      artworks: [
+        { id: "kh-1", title: "Keith Haring 1984", coordinates: [144.98681, -37.79938], image: "/art/collingwood/1.jpg" },
+        { id: "kh-2", title: "Smith St Wall", coordinates: [144.98417, -37.8], image: "/art/collingwood/2.jpg" },
+        { id: "kh-3", title: "Johnston Corner", coordinates: [144.9862, -37.79955], image: "/art/collingwood/3.jpg" }
+      ]
     },
     {
-      id: 8,
-      type: "Feature",
-      properties: {
-        name: "Presgrave Place",
-        address: "Presgrave Pl, Melbourne CBD",
-        suburb: "Melbourne CBD",
-        category: "Framed-Art Laneway",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.96534, -37.81507],
-      },
+      id: "easey",
+      name: "Easey St Murals (Trains)",
+      center: [144.98879, -37.79815],
+      address: "Easey St, Collingwood",
+      suburb: "Collingwood",
+      art_count: 3,
+      artworks: [
+        { id: "ez-1", title: "Rooftop Trains", coordinates: [144.98879, -37.79815], image: "/art/easey/1.jpg" },
+        { id: "ez-2", title: "Lane Truck Dock", coordinates: [144.9886, -37.79828], image: "/art/easey/2.jpg" },
+        { id: "ez-3", title: "Red Brick Wall", coordinates: [144.98895, -37.79805], image: "/art/easey/3.jpg" }
+      ]
     },
     {
-      id: 9,
-      type: "Feature",
-      properties: {
-        name: "Tattersalls Lane",
-        address: "Tattersalls Ln, Chinatown",
-        suburb: "Melbourne CBD",
-        category: "Laneway Street Art & Bars",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.96539, -37.81148],
-      },
-    },
-    {
-      id: 10,
-      type: "Feature",
-      properties: {
-        name: "Guildford Lane",
-        address: "Guildford Ln, Melbourne CBD",
-        suburb: "Melbourne CBD",
-        category: "Heritage Warehouses & Murals",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.95923, -37.81152],
-      },
-    },
-    {
-      id: 11,
-      type: "Feature",
-      properties: {
-        name: "Keith Haring Mural",
-        address: "Johnston St × Smith St, Collingwood",
-        suburb: "Collingwood",
-        category: "Historic Mural (1984)",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.98681, -37.79938],
-      },
-    },
-    {
-      id: 12,
-      type: "Feature",
-      properties: {
-        name: "Easey St Murals",
-        address: "Easey St, Collingwood",
-        suburb: "Collingwood",
-        category: "Street Art & Rooftop Trains",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.98879, -37.79815],
-      },
-    },
-    {
-      id: 13,
-      type: "Feature",
-      properties: {
-        name: "Rose St Artists’ Market",
-        address: "60 Rose St, Fitzroy",
-        suburb: "Fitzroy",
-        category: "Open-Air Art Market & Murals",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.97736, -37.795834],
-      },
-    },
-    {
-      id: 14,
-      type: "Feature",
-      properties: {
-        name: "Fitzroy Town Hall (Napier St)",
-        address: "201 Napier St, Fitzroy",
-        suburb: "Fitzroy",
-        category: "Civic Landmark & Nearby Murals",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.97955, -37.802096],
-      },
-    },
-    {
-      id: 15,
-      type: "Feature",
-      properties: {
-        name: "Smith Street Art Strip",
-        address: "Smith St, Collingwood/Fitzroy",
-        suburb: "Collingwood–Fitzroy",
-        category: "Retail Strip with Large-Scale Pieces",
-      },
-      geometry: {
-        type: "Point",
-        coordinates: [144.98417, -37.8],
-      },
-    },
+      id: "rose-napier",
+      name: "Rose St & Napier/Fitzroy Town Hall",
+      center: [144.97955, -37.8021],
+      address: "201 Napier St, Fitzroy",
+      suburb: "Fitzroy",
+      art_count: 3,
+      artworks: [
+        { id: "rn-1", title: "Rose St Wall", coordinates: [144.97736, -37.79583], image: "/art/fitzroy/1.jpg" },
+        { id: "rn-2", title: "Market Corner", coordinates: [144.97755, -37.7959], image: "/art/fitzroy/2.jpg" },
+        { id: "rn-3", title: "Town Hall Lane", coordinates: [144.97955, -37.8021], image: "/art/fitzroy/3.jpg" }
+      ]
+    }
   ],
   tours: [
     {
-      id: "cbd_icons",
-      name: "CBD Laneway Icons",
-      description:
-        "The must-see, paint-splattered heart of Melbourne’s street-art scene.",
-      stop_ids: [1, 2, 3, 4, 5],
-      approx_distance_km: 1.0,
-      est_time_min: 40,
-      color: "#ff5733",
+      id: "cbd-core-walk",
+      name: "CBD Core Walk",
+      mode: "walking",
+      description: "Hosier → AC/DC/Duckboard → Presgrave → Union/Caledonian.",
+      waypoints: [
+        [144.9691, -37.8165],
+        [144.971, -37.8154],
+        [144.96534, -37.81507],
+        [144.9649, -37.81215]
+      ],
+      est_distance_km: 1.3,
+      est_time_min: 40
     },
     {
-      id: "chinatown_hidden",
-      name: "Chinatown Hidden Gems",
-      description:
-        "Narrow alleys packed with colour, paste-ups and hole-in-the-wall bars.",
-      stop_ids: [6, 7, 8, 9, 10],
-      approx_distance_km: 0.8,
-      est_time_min: 35,
-      color: "#33ff57",
+      id: "cbd-chinatown-loop",
+      name: "CBD + Chinatown Loop",
+      mode: "walking",
+      description: "Union/Caledonian → Chinatown (Croft/Tattersalls) → Hosier.",
+      waypoints: [
+        [144.9649, -37.81215],
+        [144.9689, -37.8116],
+        [144.9691, -37.8165]
+      ],
+      est_distance_km: 1.2,
+      est_time_min: 35
     },
     {
-      id: "northside_classics",
-      name: "Fitzroy–Collingwood Classics",
-      description: "Legendary Northside murals and indie culture hotspots.",
-      stop_ids: [11, 12, 13, 14, 15],
-      approx_distance_km: 2.2,
-      est_time_min: 60,
-      color: "#3357ff",
+      id: "fitzroy-collingwood-circuit",
+      name: "Fitzroy–Collingwood Circuit",
+      mode: "walking",
+      description: "Rose/Napier → Haring/Smith → Easey St.",
+      waypoints: [
+        [144.97955, -37.8021],
+        [144.98681, -37.79938],
+        [144.98879, -37.79815]
+      ],
+      est_distance_km: 2.2,
+      est_time_min: 55
     },
     {
-      id: "cbd_express",
-      name: "CBD Express Loop",
-      description: "A bite-sized sampler for visitors on a tight schedule.",
-      stop_ids: [1, 5, 6, 8],
-      approx_distance_km: 0.6,
-      est_time_min: 25,
-      color: "#ff33a6",
-    },
-  ],
+      id: "cbd-to-north-connector",
+      name: "CBD → Fitzroy Connector",
+      mode: "walking",
+      description: "Guildford Lane → Chinatown → Hosier → Rose/Napier.",
+      waypoints: [
+        [144.95923, -37.81152],
+        [144.9689, -37.8116],
+        [144.9691, -37.8165],
+        [144.97955, -37.8021]
+      ],
+      est_distance_km: 3.2,
+      est_time_min: 75
+    }
+  ]
 };
+
