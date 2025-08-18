@@ -32,16 +32,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "/images/marker-shadow.png",
 });
 
-const routeColors = [
-  "#4e79ff", // primary brand blue
-  "#f8d24d", // brand yellow
-  "#6d95ff", // lighter blue
-  "#ffd866", // lighter yellow
-  "#f472b6", // supporting pink
-  "#818cf8", // violet-blue
-  "#f59e0b", // warm accent
-];
-
 // Helper: haversine distance (km)
 function haversine(a: [number, number], b: [number, number]) {
   const R = 6371;
