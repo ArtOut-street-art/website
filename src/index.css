@@ -18,6 +18,10 @@
   max-font-size: 4rem; /* Prevent excessive scaling */
 }
 
+/* Define font utility classes mapping tailwind custom use (lightweight) */
+.font-sunda { font-family: 'Sundae Plush','Sundae','cursive',system-ui; }
+.font-akadylan { font-family: 'Sundae Plush','Akadylan','cursive',system-ui; }
+
 /* Ensure all images are responsive */
 img {
   max-width: 100%;
@@ -70,29 +74,45 @@ html { scroll-behavior: smooth; }
 }
 
 /* Cluster marker styles */
+.artout-cluster {
+  background: transparent;
+  border: none;
+}
+
 .artout-cluster .cluster-circle {
   width: 46px;
   height: 46px;
+  background: #4e79ff;
+  border: 3px solid #ffffff;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--artout-blue-accent) 0%, var(--artout-blue) 55%, var(--artout-blue-deep) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font: 600 13px/1.1 system-ui,sans-serif;
-  border: 2px solid var(--artout-blue-accent);
-  box-shadow: 0 4px 10px -2px rgba(0,0,0,.55),0 0 0 3px rgba(255,255,255,.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease, border-color .22s;
+  transition: all 0.2s ease;
 }
-.artout-cluster .cluster-circle .count { transform: translateY(1px); }
-.artout-cluster:hover .cluster-circle,
-.artout-cluster.active .cluster-circle { transform: scale(1.08); }
+.artout-cluster .cluster-circle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
 .artout-cluster.active .cluster-circle {
-  border-color: var(--artout-yellow);
-  background: radial-gradient(circle at 35% 30%, var(--artout-yellow) 0%, var(--artout-yellow-accent) 55%, #d4aa1f 100%);
-  box-shadow: 0 0 0 4px rgba(248,210,77,.28), 0 6px 14px -2px rgba(0,0,0,.55);
+  background: #f472b6;
+  border-color: #ffffff;
+  animation: pulse 2s infinite;
 }
+.artout-cluster .cluster-circle .count {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
 @media (max-width:640px){
   .artout-cluster .cluster-circle { width:40px;height:40px;font-size:11px; }
 }
@@ -154,4 +174,14 @@ html { scroll-behavior: smooth; }
   .xs\:h-\[360px\] {
     height: 360px;
   }
+}
+
+/* Floral background utility */
+.floral-bg {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)),
+    url('/images/bg-floral.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

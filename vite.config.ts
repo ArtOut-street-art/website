@@ -9,5 +9,9 @@ export default defineConfig({
     build: {
     outDir: 'dist',
     emptyOutDir: true
+  },
+  assetsInclude: ['**/*.geojson'],
+  json: {
+    stringify: false
   }
 })

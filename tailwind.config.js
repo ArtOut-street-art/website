@@ -16,11 +16,17 @@ module.exports = {
         orange: "#ffd6a5",
         purple: "#d4bfff",
         pastelgray: "#e0e7ef",
-        darkgray: "#525a6f"
+        darkgray: "#525a6f",
+        "artout-blue": "#4e79ff",
+        "artout-yellow": "#f8d24d",
+        "artout-pink": "#f472b6",
       },
       fontFamily: {
         display: ["'Quicksand'", "sans-serif"],
         mono: ["'Fira Mono'", "monospace"],
+        sunda: ["'Sundae Plush'", "cursive", "system-ui"],
+        akadylan: ["'Sundae Plush'", "cursive", "system-ui"], // placeholder same font
+        artout: ["'Bricks'", "cursive", "sans-serif"],
       },
       boxShadow: {
         pastel: "0 4px 32px 0 #b9e2fa33",

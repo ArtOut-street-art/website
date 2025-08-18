@@ -4,10 +4,12 @@ import {
   Marker,
   Popup,
   Polyline,
+  useMap,
 } from "react-leaflet";
 import { FitBoundsUpdater, InvalidateMapSize } from "../utils/MapUtils";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useEffect } from "react";
 
 interface MarkerData {
   id: string;
@@ -27,6 +29,30 @@ interface MapWrapperProps {
   polylineColor?: string;
   bounds?: L.LatLngBoundsExpression;
   onMarkerClick?: (id: string) => void; // NEW
+  interactive?: boolean; // NEW (default false -> locked)
+}
+
+// Helper component to toggle interaction
+function InteractionToggle({ interactive }: { interactive: boolean }) {
+  const map = useMap();
+  useEffect(() => {
+    if (interactive) {
+      map.dragging.enable();
+      map.scrollWheelZoom.enable();
+      map.touchZoom.enable();
+      map.doubleClickZoom.enable();
+      map.boxZoom.enable();
+      map.keyboard.enable();
+    } else {
+      map.dragging.disable();
+      map.scrollWheelZoom.disable();
+      map.touchZoom.disable();
+      map.doubleClickZoom.disable();
+      map.boxZoom.disable();
+      map.keyboard.disable();
+    }
+  }, [interactive, map]);
+  return null;
 }
 
 export function MapWrapper({
@@ -37,15 +63,20 @@ export function MapWrapper({
   polylineColor,
   bounds,
   onMarkerClick,
+  interactive = false, // default locked
 }: MapWrapperProps) {
   return (
     <MapContainer
       center={center}
       zoom={zoom}
+      // Disable wheel & dragging initially; InteractionToggle will refine
+      scrollWheelZoom={false}
+      dragging={false}
+      doubleClickZoom={false}
       style={{ width: "100%", height: "100%" }}
-      scrollWheelZoom
       className="rounded-xl"
     >
+      <InteractionToggle interactive={interactive} />
       <TileLayer
         attribution='© <a href="https://www.openstreetmap.org/copyright">OSM</a>'
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -65,18 +96,15 @@ export function MapWrapper({
             })
           : undefined;
 
-        // Only spread icon prop if defined (avoids Leaflet createIcon error)
-        const markerProps: any = {
-          key: m.id,
-          position: m.position,
-          eventHandlers: onMarkerClick
-            ? { click: () => onMarkerClick(m.id) }
-            : undefined,
-        };
-        if (icon) markerProps.icon = icon;
-
         return (
-          <Marker {...markerProps}>
+          <Marker
+            key={m.id}
+            position={m.position}
+            {...(icon ? { icon } : {})}
+            eventHandlers={
+              onMarkerClick ? { click: () => onMarkerClick(m.id) } : undefined
+            }
+          >
             <Popup>
               <div style={{ minWidth: 170, maxWidth: 240 }}>
                 <strong style={{ fontSize: 15, fontWeight: 500 }}>
