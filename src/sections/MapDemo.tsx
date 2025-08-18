@@ -109,7 +109,7 @@ export default function MapDemo() {
       className="bg-[#18181b] min-h-[700px] flex flex-col justify-center pt-0 pb-12 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-6 flex flex-col items-center mt-0">
-        <h2 className="text-6xl md:text-7xl font-bold text-white text-center tracking-tight mb-4">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white text-center tracking-tight mb-4 max-w-full">
           Explore the Map
         </h2>
         <div className="h-[3px] w-40 bg-gradient-to-r from-artout-blue via-artout-yellow to-artout-blue rounded-full mb-4" />
@@ -117,7 +117,7 @@ export default function MapDemo() {
           Clusters = laneways & mural zones. Expand one or follow a tour path.
         </p>
         {/* Tour Buttons */}
-        <div className="mb-4 flex flex-wrap justify-center gap-3">
+        <div className="mb-4 flex flex-wrap justify-center gap-2 sm:gap-3 max-w-full px-2">
           <button
             onClick={() => {
               setSelectedTour("");
@@ -125,7 +125,7 @@ export default function MapDemo() {
               if (window.innerWidth < 768)
                 mapContainerRef.current?.scrollIntoView({ behavior: "smooth" });
             }}
-            className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition ${
+            className={`px-3 sm:px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition text-sm sm:text-base whitespace-nowrap ${
               selectedTour === "" ? "ring-1 ring-gray-500" : ""
             }`}
           >
@@ -142,7 +142,7 @@ export default function MapDemo() {
                     behavior: "smooth",
                   });
               }}
-              className={`px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition ${
+              className={`px-3 sm:px-4 py-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition text-sm sm:text-base whitespace-nowrap ${
                 selectedTour === tour.id ? "ring-1 ring-gray-500" : ""
               }`}
             >

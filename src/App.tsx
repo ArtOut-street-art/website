@@ -10,9 +10,15 @@ import MobileAppShowcase from "./sections/MobileAppShowcase.tsx";
 
 export default function App() {
   return (
-    <div className="relative min-h-screen font-sans bg-[#18181b]">
+    <div className="relative min-h-screen font-sans bg-[#18181b] pt-14 sm:pt-16">
+      <a
+        href="#home"
+        className="fixed left-2 top-2 z-[1000] -translate-y-14 focus:translate-y-0 transition bg-pink-600 text-white px-3 py-1 rounded-md text-sm"
+      >
+        Skip to content
+      </a>
       {/* Main content */}
-      <div className="relative z-20">
+      <main className="relative z-20">
         <Navbar />
         <Home />
         <About />
@@ -22,7 +28,7 @@ export default function App() {
         <Gallery />
 
         <Contact />
-      </div>
+      </main>
       <Footer />
     </div>
   );
