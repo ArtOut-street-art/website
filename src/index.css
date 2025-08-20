@@ -185,3 +185,60 @@ html { scroll-behavior: smooth; }
   background-position: center;
   background-repeat: no-repeat;
 }
+
+/* Unified panel + border helpers */
+.panel {
+  border: 1px solid #2f2f35;
+  background: #23232b;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.panel-soft {
+  border: 1px solid rgba(255,255,255,0.05);
+  background: #1d1d22;
+  border-radius: 1rem;
+}
+
+/* Image containment utilities */
+.img-cover { width:100%; height:100%; object-fit:cover; display:block; }
+.aspect-16-9 { aspect-ratio:16/9; }
+.aspect-9-16 { aspect-ratio:9/16; }
+.aspect-4-5 { aspect-ratio:4/5; }
+
+/* Remove unintended extra gaps in stacked sections */
+section > .gap-tight { margin-top:0 !important; margin-bottom:0 !important; }
+
+/* Compact vertical rhythm helpers */
+.space-tight-y > * + * { margin-top: .75rem; }
+
+/* Prevent layout shift on image load */
+.skeleton {
+  position:relative;
+  background:linear-gradient(110deg,#2a2a30 8%,#33353d 18%,#2a2a30 33%);
+  background-size:200% 100%;
+  animation:loading 1.2s linear infinite;
+}
+@keyframes loading {
+  to { background-position:-200% 0; }
+}
+
+/* Smooth container sizing for dynamic galleries */
+.gallery-shell {
+  width:100%;
+  max-width:1250px;
+  margin-inline:auto;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+}
+
+@media (max-width:640px){
+  .no-mobile-gap { margin-top:0 !important; }
+  .tight-stack > * + * { margin-top:1.25rem; }
+}
+
+/* Subtle border color refinement */
+:root {
+  --panel-border:#2f2f35;
+}

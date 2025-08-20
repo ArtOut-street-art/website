@@ -22,10 +22,7 @@ const mobileAppImages = [
 
 export default function MobileAppShowcase() {
   return (
-    <section
-      id="mobile-app"
-      className="py-16 sm:py-20 bg-[#18181b] w-full max-w-full"
-    >
+    <section id="mobile-app" className="py-14 sm:py-18 bg-[#18181b] w-full">
       <div className="max-w-7xl mx-auto px-3 sm:px-6">
         <h2
           className="text-4xl sm:text-5xl font-bold mb-5 sm:mb-6 text-gray-100 text-center font-sunda tracking-tight"
@@ -38,28 +35,25 @@ export default function MobileAppShowcase() {
           pinned. Explore new finds, open raw context, or trace a micro‑route.
         </p>
 
-        {/* Responsive layout with larger images */}
         <div className="w-full">
-          {/* Mobile: Stack vertically with larger images */}
+          {/* Mobile */}
           <div className="block sm:hidden">
-            <div className="space-y-8 max-w-lg mx-auto">
+            <div className="space-y-6 max-w-md mx-auto">
               {mobileAppImages.map((img, i) => (
                 <div key={img.src} className="flex flex-col items-center">
-                  {/* Larger mobile container */}
-                  <div className="w-full aspect-[9/16] max-w-[380px] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-700/40 bg-[#1f1f22] mb-4">
+                  <div className="w-full aspect-9-16 max-w-[360px] rounded-xl overflow-hidden panel-soft mb-3">
                     <img
                       src={img.src}
                       alt={img.alt}
                       loading={i === 0 ? "eager" : "lazy"}
-                      className="w-full h-full object-cover scale-125 transition-transform duration-300 hover:scale-[1.3]"
-                      style={{ objectPosition: "center 10%" }}
+                      className="img-cover"
                     />
                   </div>
-                  <div className="text-center px-2 max-w-[380px]">
-                    <h3 className="text-base text-gray-200 font-medium tracking-wide mb-1">
+                  <div className="text-center px-1 max-w-[340px]">
+                    <h3 className="text-sm text-gray-200 font-medium tracking-wide mb-0.5">
                       {img.alt}
                     </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed">
+                    <p className="text-xs text-gray-500 leading-snug">
                       {img.caption}
                     </p>
                   </div>
@@ -68,38 +62,32 @@ export default function MobileAppShowcase() {
             </div>
           </div>
 
-          {/* Desktop: Horizontal strip with larger images */}
+          {/* Desktop */}
           <div className="hidden sm:block">
             <div
-              className="relative w-full rounded-xl bg-[#23232b]/40 p-6 flex gap-6 md:gap-8 justify-center items-end overflow-x-auto snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
-              style={{
-                height: "65vh",
-                minHeight: "550px",
-                maxHeight: "750px",
-              }}
+              className="relative w-full rounded-xl panel-soft p-5 flex gap-5 md:gap-7 justify-center items-end overflow-x-auto snap-x snap-mandatory"
+              style={{ minHeight: "480px" }}
             >
               {mobileAppImages.map((img, i) => (
                 <div
                   key={img.src}
                   className="flex flex-col items-center snap-center h-full flex-shrink-0"
                 >
-                  {/* Desktop: Larger images with better proportions */}
-                  <div className="h-full flex items-end pb-12">
-                    <div className="aspect-[9/16] h-full max-h-[550px] min-w-[220px] max-w-[300px] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-700/40 bg-[#1f1f22]">
+                  <div className="h-full flex items-end pb-10">
+                    <div className="aspect-9-16 h-full max-h-[520px] min-w-[210px] max-w-[280px] rounded-xl overflow-hidden panel-soft">
                       <img
                         src={img.src}
                         alt={img.alt}
                         loading={i === 0 ? "eager" : "lazy"}
-                        className="w-full h-full object-cover scale-125 transition-transform duration-300 hover:scale-[1.3]"
-                        style={{ objectPosition: "center 10%" }}
+                        className="img-cover"
                       />
                     </div>
                   </div>
-                  <div className="mt-3 text-center max-w-[220px]">
+                  <div className="mt-2.5 text-center max-w-[220px]">
                     <p className="text-sm text-gray-200 font-medium tracking-wide">
                       {img.alt}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1 leading-snug">
+                    <p className="text-xs text-gray-500 mt-0.5 leading-snug">
                       {img.caption}
                     </p>
                   </div>

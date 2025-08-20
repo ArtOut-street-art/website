@@ -3,26 +3,10 @@ import { useState, useRef, useMemo, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
 import { MapWrapper } from "../components/MapWrapper";
 
-// Utility to try multiple fetch paths (public then src)
-async function fetchFirst(paths: string[]) {
-  let lastErr: any;
-  for (const p of paths) {
-    try {
-      const r = await fetch(p);
-      if (r.ok) {
-        const text = await r.text();
-        if (text.startsWith("<!doctype") || text.startsWith("<html")) {
-          throw new Error(`Got HTML instead of JSON for ${p}`);
-        }
-        return JSON.parse(text);
-      }
-      lastErr = `${p} -> ${r.status}`;
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-  throw new Error(`Failed all paths: ${lastErr}`);
-}
+// NEW: embed baseline data (always bundled; fallback if /data/*.geojson not deployed)
+import clustersEmbedded from "../data/clusters.geojson";
+import artworksEmbedded from "../data/artworks.geojson";
+import toursEmbedded from "../data/tours.geojson";
 
 // Leaflet default icon fix
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -97,6 +81,17 @@ function normalizeFC(raw: any, label: string) {
   return fc;
 }
 
+// NEW: handle Vite asset URL (string) vs direct object import
+async function loadEmbeddedFC(value: any, label: string) {
+  if (typeof value === "string") {
+    const res = await fetch(value);
+    if (!res.ok) throw new Error(`${label} fetch ${res.status}`);
+    const json = await res.json();
+    return normalizeFC(json, label);
+  }
+  return normalizeFC(value, label);
+}
+
 export default function MapDemo() {
   // State
   const [selectedTour, setSelectedTour] = useState<string>(""); // tour id
@@ -118,59 +113,33 @@ export default function MapDemo() {
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
-  // Data load (direct import attempt first for dev, fallback to fetch from /data then /src/data)
+  // REPLACE data load effect
   useEffect(() => {
     let cancelled = false;
-    async function load() {
+    (async () => {
       try {
-        let clustersJson, artworksJson, toursJson;
+        const [clustersJson, artworksJson, toursBase] = await Promise.all([
+          loadEmbeddedFC(clustersEmbedded, "clusters"),
+          loadEmbeddedFC(artworksEmbedded, "artworks"),
+          loadEmbeddedFC(toursEmbedded, "tours"),
+        ]);
+
+        let toursJson = toursBase;
+        // Optional: override with directions file if present
         try {
-          const [cMod, aMod, tMod] = await Promise.all([
-            import("../data/clusters.geojson"),
-            import("../data/artworks.geojson"),
-            import("../data/tours.geojson"),
-          ]);
-          clustersJson = normalizeFC(cMod, "clusters");
-          artworksJson = normalizeFC(aMod, "artworks");
-          toursJson = normalizeFC(tMod, "tours");
-        } catch {
-          clustersJson = normalizeFC(
-            await fetchFirst([
-              "/data/clusters.geojson",
-              "/src/data/clusters.geojson",
-            ]),
-            "clusters"
-          );
-          artworksJson = normalizeFC(
-            await fetchFirst([
-              "/data/artworks.geojson",
-              "/src/data/artworks.geojson",
-            ]),
-            "artworks"
-          );
-          const maybeDirections = await (async () => {
-            try {
-              return normalizeFC(
-                await fetchFirst([
-                  "/data/tours_directions.geojson",
-                  "/src/data/tours_directions.geojson",
-                ]),
-                "tours_directions"
-              );
-            } catch {
-              return null;
+          const r = await fetch("/data/tours_directions.geojson", {
+            cache: "no-store",
+          });
+          if (r.ok) {
+            const txt = await r.text();
+            if (!txt.startsWith("<!doctype") && !txt.startsWith("<html")) {
+              toursJson = normalizeFC(JSON.parse(txt), "tours_directions");
             }
-          })();
-          toursJson =
-            maybeDirections ||
-            normalizeFC(
-              await fetchFirst([
-                "/data/tours.geojson",
-                "/src/data/tours.geojson",
-              ]),
-              "tours"
-            );
+          }
+        } catch {
+          /* ignore override errors silently */
         }
+
         if (!cancelled) {
           setClustersFC(clustersJson);
           setArtworksFC(artworksJson);
@@ -185,8 +154,7 @@ export default function MapDemo() {
           setLoading(false);
         }
       }
-    }
-    load();
+    })();
     return () => {
       cancelled = true;
     };
@@ -399,9 +367,9 @@ export default function MapDemo() {
   return (
     <section
       id="map"
-      className="bg-[#18181b] min-h-[700px] flex flex-col justify-center pt-0 pb-12 overflow-hidden"
+      className="bg-[#18181b] py-14 sm:py-18 flex flex-col justify-center overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto w-full px-2 sm:px-6 flex flex-col items-center mt-0">
+      <div className="max-w-7xl mx-auto w-full px-3 sm:px-6 flex flex-col items-center">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white text-center tracking-tight mb-4 max-w-full">
           Explore the Map
         </h2>
@@ -459,8 +427,8 @@ export default function MapDemo() {
         {/* Map */}
         <div
           ref={mapContainerRef}
-          className="relative w-full rounded-xl overflow-hidden shadow-xl bg-black flex items-center justify-center"
-          style={{ minHeight: "500px", maxHeight: "700px", height: "60vh" }}
+          className="relative w-full rounded-xl overflow-hidden panel-soft bg-black flex items-center justify-center"
+          style={{ minHeight: "480px", maxHeight: "680px", height: "58vh" }}
         >
           {/* Lock / Unlock control */}
           <button

@@ -38,9 +38,9 @@ export default function Gallery() {
   return (
     <section
       id="gallery"
-      className="py-16 sm:py-20 bg-[#18181b] w-full max-w-full overflow-x-hidden"
+      className="py-14 sm:py-16 bg-[#18181b] w-full max-w-full overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center">
+      <div className="gallery-shell px-4 sm:px-6 items-center">
         <h2
           className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-10 text-artout-yellow text-center font-sunda tracking-tight"
           style={{ textShadow: "2px 2px 8px #000" }}
@@ -54,72 +54,68 @@ export default function Gallery() {
           attributed to the place it stood.
         </p>
 
-        {/* Main large image area */}
-        <div
-          className="w-full relative rounded-xl overflow-hidden shadow-lg bg-[#23232b]"
-          style={{ height: "50vh", minHeight: "400px", maxHeight: "600px" }}
-        >
+        {/* Main image wrapper with stable aspect */}
+        <div className="relative panel-soft w-full aspect-16-9 max-h-[620px] min-h-[300px] md:min-h-[380px] transition-[height] duration-300">
           <img
             key={current.src}
             src={current.src}
             alt={current.alt}
-            className="w-full h-full object-cover"
+            className="img-cover"
+            loading="eager"
           />
-
-          {/* Gradient overlay for caption legibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none" />
 
           {/* Improved navigation buttons */}
           <button
             onClick={() => go(-1)}
             aria-label="Previous image"
-            className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-gray-200 p-2 sm:p-3 rounded-full text-lg sm:text-xl backdrop-blur transition z-10"
+            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/75 text-gray-200 p-2 sm:p-3 rounded-full text-lg sm:text-xl backdrop-blur transition"
           >
             ‹
           </button>
           <button
             onClick={() => go(1)}
             aria-label="Next image"
-            className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-gray-200 p-2 sm:p-3 rounded-full text-lg sm:text-xl backdrop-blur transition z-10"
+            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 bg-black/55 hover:bg-black/75 text-gray-200 p-2 sm:p-3 rounded-full text-lg sm:text-xl backdrop-blur transition"
           >
             ›
           </button>
 
           {/* Improved caption positioning */}
-          <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 text-left bg-gradient-to-t from-black/80 via-black/60 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/50 to-transparent">
             <h3 className="text-white text-sm sm:text-base md:text-lg font-semibold font-akadylan mb-1">
               {current.baseAlt}
             </h3>
-            <p className="text-gray-300 text-xs sm:text-sm leading-snug mb-1">
+            <p className="text-gray-300 text-xs sm:text-sm leading-snug mb-1 line-clamp-2">
               {slideMeta[current.baseAlt] ||
                 "Captured fragment of evolving public expression."}
             </p>
-            <p className="text-gray-400 text-xs">
+            <p className="text-gray-500 text-[11px]">
               {index + 1} / {total}
             </p>
           </div>
         </div>
 
         {/* Progress dots (clickable) */}
-        <div className="flex flex-wrap justify-center gap-2 mt-8 max-w-3xl">
+        <div className="flex flex-wrap justify-center gap-1.5 mt-6 sm:mt-7">
           {slides.map((s, i) => {
             const active = i === index;
             return (
               <button
                 key={s.src + i}
-                aria-label={`Go to slide ${i + 1}`}
                 onClick={() => goTo(i)}
-                className={`h-3 rounded-full transition ${
+                aria-label={`Go to slide ${i + 1}`}
+                className={`h-2.5 rounded-full transition-all ${
                   active
-                    ? "w-8 bg-pink-500"
-                    : "w-3 bg-gray-600 hover:bg-gray-400"
+                    ? "w-8 bg-pink-500 shadow-sm"
+                    : "w-2.5 bg-gray-600 hover:bg-gray-400"
                 }`}
               />
             );
           })}
         </div>
 
-        <p className="mt-10 text-center text-gray-400 text-base font-akadylan max-w-2xl">
+        <p className="mt-8 sm:mt-9 text-center text-gray-400 text-sm sm:text-base font-akadylan max-w-2xl">
           More coming soon. Want your art featured?{" "}
           <a
             href="#contact"
