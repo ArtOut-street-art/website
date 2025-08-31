@@ -9,7 +9,7 @@ import {
 } from "react";
 import { galleryData } from "../data/galleryData";
 
-// --- Graffiti Canvas Component (single rainbow, immediate static spray) ---
+// --- Graffiti Canvas Component (single rainbow, immediate static spray; hold-to-draw on touch) ---
 type Pt = { x: number; y: number; t: number };
 interface GraffitiCanvasProps {
   className?: string;
@@ -30,6 +30,12 @@ const GraffitiCanvas = forwardRef<GraffitiCanvasRef, GraffitiCanvasProps>(
     const strokeStart = useRef(0);
     const lastTime = useRef(0);
     const drawInterval = 12; // ms throttle
+
+    // Hold-to-draw (touch) helpers
+    const holdTimerRef = useRef<number | null>(null);
+    const initialPtRef = useRef<{ x: number; y: number } | null>(null);
+    const HOLD_DELAY = 180; // ms required to switch into drawing on touch
+    const MOVE_CANCEL_PX = 8; // movement threshold to cancel hold (let it scroll)
 
     useImperativeHandle(
       ref,
@@ -86,17 +92,70 @@ const GraffitiCanvas = forwardRef<GraffitiCanvasRef, GraffitiCanvasProps>(
       for (const p of pts) drawSprayPoint(ctx, p, size, jitter);
     };
 
-    const onPointerDown = useCallback((e: PointerEvent) => {
+    // Cancel any pending hold-to-draw timer
+    const cancelHold = () => {
+      if (holdTimerRef.current != null) {
+        clearTimeout(holdTimerRef.current);
+        holdTimerRef.current = null;
+      }
+      initialPtRef.current = null;
+    };
+
+    // Start drawing (used after hold time for touch, or immediately for mouse/pen)
+    const startDrawingImmediate = (e: PointerEvent) => {
       (e.target as Element).setPointerCapture?.(e.pointerId);
       drawing.current = true;
       strokeStart.current = performance.now();
       const p = getPos(e);
       if (p) currentStroke.current = [{ ...p, t: 0 }];
       e.preventDefault();
+    };
+
+    const onPointerDown = useCallback((e: PointerEvent) => {
+      // Distinguish pointer types
+      const pType = (e as any).pointerType || "touch";
+
+      // Mouse/pen: start drawing immediately
+      if (pType === "mouse" || pType === "pen") {
+        cancelHold();
+        startDrawingImmediate(e);
+        return;
+      }
+
+      // For touch: start a hold timer and track initial pos; allow browser to scroll until hold completes
+      cancelHold();
+      const p = getPos(e);
+      initialPtRef.current = p;
+      holdTimerRef.current = window.setTimeout(() => {
+        holdTimerRef.current = null;
+        // Only start drawing if pointer hasn't moved away (scroll canceled)
+        startDrawingImmediate(e);
+      }, HOLD_DELAY);
+      // do NOT preventDefault here so the page can scroll if user moves quickly
     }, []);
 
     const onPointerMove = useCallback(
       (e: PointerEvent) => {
+        const pType = (e as any).pointerType || "touch";
+
+        // If touch and not yet drawing, check movement to cancel hold (allow scrolling)
+        if (pType === "touch" && !drawing.current) {
+          const init = initialPtRef.current;
+          if (!init) return;
+          const pos = getPos(e);
+          if (!pos) return;
+          const dx = pos.x - init.x;
+          const dy = pos.y - init.y;
+          if (Math.hypot(dx, dy) > MOVE_CANCEL_PX) {
+            // user intends to scroll/drag — cancel drawing
+            cancelHold();
+            return;
+          }
+          // otherwise, still waiting for hold; do nothing (allow scroll)
+          return;
+        }
+
+        // If drawing (mouse/pen or touch after hold) process as before
         if (!drawing.current) return;
         const now = performance.now();
         if (now - lastTime.current < drawInterval) return;
@@ -111,24 +170,34 @@ const GraffitiCanvas = forwardRef<GraffitiCanvasRef, GraffitiCanvasProps>(
         if (!c) return;
         const ctx = c.getContext("2d");
         if (!ctx) return;
+        // prevent scrolling while actively drawing
+        e.preventDefault();
         drawSprayPoint(ctx, pt, brushSize, 0);
       },
       [brushSize]
     );
 
-    const onPointerUp = useCallback(() => {
-      if (!drawing.current) return;
-      drawing.current = false;
-      if (currentStroke.current.length > 0) {
-        strokesRef.current.push({
-          points: [...currentStroke.current],
-          size: brushSize,
-        });
-        // ensure the whole stroke is drawn (covers any missed samples)
-        drawStrokeNow(currentStroke.current, brushSize);
-      }
-      currentStroke.current = [];
-    }, [brushSize]);
+    const onPointerUp = useCallback(
+      (e?: PointerEvent) => {
+        cancelHold();
+        if (!drawing.current) return;
+        drawing.current = false;
+        if (currentStroke.current.length > 0) {
+          strokesRef.current.push({
+            points: [...currentStroke.current],
+            size: brushSize,
+          });
+          // ensure the whole stroke is drawn (covers any missed samples)
+          drawStrokeNow(currentStroke.current, brushSize);
+        }
+        currentStroke.current = [];
+        try {
+          if (e)
+            (e.target as Element).releasePointerCapture?.((e as any).pointerId);
+        } catch {}
+      },
+      [brushSize]
+    );
 
     // high-DPR sizing (canvas covers hero area – top-left origin)
     useEffect(() => {
@@ -164,12 +233,14 @@ const GraffitiCanvas = forwardRef<GraffitiCanvasRef, GraffitiCanvasProps>(
     useEffect(() => {
       const c = canvasRef.current;
       if (!c) return;
-      c.style.touchAction = "none";
+      // allow vertical page panning by default; drawing will preventDefault when active
+      c.style.touchAction = "pan-y";
       c.addEventListener("pointerdown", onPointerDown);
       c.addEventListener("pointermove", onPointerMove);
       window.addEventListener("pointerup", onPointerUp);
       window.addEventListener("pointercancel", onPointerUp);
       return () => {
+        cancelHold();
         c.removeEventListener("pointerdown", onPointerDown);
         c.removeEventListener("pointermove", onPointerMove);
         window.removeEventListener("pointerup", onPointerUp);
