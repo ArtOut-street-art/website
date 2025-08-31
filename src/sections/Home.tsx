@@ -1,65 +1,322 @@
-import { useRef } from "react";
-// Change import to .js extension for Vite compatibility with TypeScript hooks
-import { useSprayTrail } from "../hooks/useSprayTrail.js";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+} from "react";
+import { galleryData } from "../data/galleryData";
 
+// --- Graffiti Canvas Component (single rainbow, immediate static spray) ---
+type Pt = { x: number; y: number; t: number };
+interface GraffitiCanvasProps {
+  className?: string;
+  brushSize: number;
+}
+export interface GraffitiCanvasRef {
+  clear: () => void;
+}
+
+const GraffitiCanvas = forwardRef<GraffitiCanvasRef, GraffitiCanvasProps>(
+  ({ className, brushSize }, ref) => {
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+    // store strokes so we can clear later
+    const strokesRef = useRef<{ points: Pt[]; size: number }[]>([]);
+    const currentStroke = useRef<Pt[]>([]);
+    const drawing = useRef(false);
+    const strokeStart = useRef(0);
+    const lastTime = useRef(0);
+    const drawInterval = 12; // ms throttle
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        clear() {
+          strokesRef.current.length = 0;
+          currentStroke.current = [];
+          const c = canvasRef.current;
+          if (!c) return;
+          const ctx = c.getContext("2d");
+          if (!ctx) return;
+          ctx.clearRect(0, 0, c.width, c.height);
+        },
+      }),
+      []
+    );
+
+    const getPos = (evt: PointerEvent) => {
+      const c = canvasRef.current;
+      if (!c) return null;
+      const rect = c.getBoundingClientRect();
+      return { x: evt.clientX - rect.left, y: evt.clientY - rect.top };
+    };
+
+    // Draw a spray cloud for a single point immediately (static)
+    const drawSprayPoint = (
+      ctx: CanvasRenderingContext2D,
+      pt: Pt,
+      size: number,
+      jitter = 0
+    ) => {
+      const hue = (pt.t * 0.06 + (pt.x + pt.y) * 0.02 + jitter) % 360;
+      const particleCount = Math.max(10, Math.floor(size / 2));
+      for (let i = 0; i < particleCount; i++) {
+        const offsetX = (Math.random() - 0.5) * size;
+        const offsetY = (Math.random() - 0.5) * size;
+        const radius = Math.random() * (size / 10) + size / 25;
+        ctx.globalAlpha = Math.random() * 0.45 + 0.12;
+        ctx.fillStyle = `hsl(${hue} 100% 60%)`;
+        ctx.beginPath();
+        ctx.arc(pt.x + offsetX, pt.y + offsetY, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    // draw an entire stroke immediately (no RAF); used on pointermove/up to render static pixels
+    const drawStrokeNow = (pts: Pt[], size: number) => {
+      const c = canvasRef.current;
+      if (!c) return;
+      const ctx = c.getContext("2d");
+      if (!ctx) return;
+      // For natural variation apply a per-stroke jitter seed
+      const jitter = Math.random() * 40;
+      for (const p of pts) drawSprayPoint(ctx, p, size, jitter);
+    };
+
+    const onPointerDown = useCallback((e: PointerEvent) => {
+      (e.target as Element).setPointerCapture?.(e.pointerId);
+      drawing.current = true;
+      strokeStart.current = performance.now();
+      const p = getPos(e);
+      if (p) currentStroke.current = [{ ...p, t: 0 }];
+      e.preventDefault();
+    }, []);
+
+    const onPointerMove = useCallback(
+      (e: PointerEvent) => {
+        if (!drawing.current) return;
+        const now = performance.now();
+        if (now - lastTime.current < drawInterval) return;
+        lastTime.current = now;
+        const p0 = getPos(e);
+        if (!p0) return;
+        const t = Math.max(0, performance.now() - strokeStart.current);
+        const pt: Pt = { ...p0, t };
+        currentStroke.current.push(pt);
+        // draw only the newest point immediately so the output is static (no animation)
+        const c = canvasRef.current;
+        if (!c) return;
+        const ctx = c.getContext("2d");
+        if (!ctx) return;
+        drawSprayPoint(ctx, pt, brushSize, 0);
+      },
+      [brushSize]
+    );
+
+    const onPointerUp = useCallback(() => {
+      if (!drawing.current) return;
+      drawing.current = false;
+      if (currentStroke.current.length > 0) {
+        strokesRef.current.push({
+          points: [...currentStroke.current],
+          size: brushSize,
+        });
+        // ensure the whole stroke is drawn (covers any missed samples)
+        drawStrokeNow(currentStroke.current, brushSize);
+      }
+      currentStroke.current = [];
+    }, [brushSize]);
+
+    // high-DPR sizing (canvas covers hero area – top-left origin)
+    useEffect(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      let mounted = true;
+      const resize = () => {
+        if (!mounted) return;
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.round(rect.width * dpr));
+        canvas.height = Math.max(1, Math.round(rect.height * dpr));
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+      };
+      resize();
+      const ro =
+        typeof ResizeObserver !== "undefined"
+          ? new ResizeObserver(resize)
+          : null;
+      if (ro) ro.observe(canvas.parentElement ?? canvas);
+      window.addEventListener("resize", resize);
+      return () => {
+        mounted = false;
+        if (ro) ro.disconnect();
+        window.removeEventListener("resize", resize);
+      };
+    }, []);
+
+    // pointer wiring
+    useEffect(() => {
+      const c = canvasRef.current;
+      if (!c) return;
+      c.style.touchAction = "none";
+      c.addEventListener("pointerdown", onPointerDown);
+      c.addEventListener("pointermove", onPointerMove);
+      window.addEventListener("pointerup", onPointerUp);
+      window.addEventListener("pointercancel", onPointerUp);
+      return () => {
+        c.removeEventListener("pointerdown", onPointerDown);
+        c.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+      };
+    }, [onPointerDown, onPointerMove, onPointerUp]);
+
+    // ensure the canvas element is top-left anchored and covers the hero
+    return (
+      <canvas
+        ref={canvasRef}
+        className={`${className ?? ""} absolute left-0 top-0 w-full h-full`}
+      />
+    );
+  }
+);
+
+// --- Home component uses gallery images as backgrounds and auto-reset ---
 export default function Home() {
-  const trailRef = useRef<HTMLDivElement>(
-    null
-  ) as React.RefObject<HTMLDivElement>;
+  // flatten gallery images
+  const backgroundImages = useMemo(
+    () => galleryData.flatMap((g) => g.images),
+    []
+  );
 
-  useSprayTrail(trailRef);
+  const [currentBg, setCurrentBg] = useState(0);
+
+  // responsive default brush size (single size, no controls)
+  const defaultSize = useMemo(() => {
+    const base = Math.min(window.innerWidth || 800, window.innerHeight || 600);
+    return Math.max(12, Math.min(60, Math.round(base / 30)));
+  }, []);
+  const [spraySize] = useState(defaultSize);
+  const canvasRef = useRef<GraffitiCanvasRef | null>(null);
+
+  // cycle backgrounds every 6s (visual) but reset canvas every 30s
+  useEffect(() => {
+    const bgTimer = setInterval(() => {
+      setCurrentBg((s) => (s + 1) % Math.max(1, backgroundImages.length));
+    }, 6000);
+    return () => clearInterval(bgTimer);
+  }, [backgroundImages.length]);
+
+  // auto-clear drawing every 30s
+  useEffect(() => {
+    const clearTimer = setInterval(() => {
+      canvasRef.current?.clear();
+    }, 30000);
+    return () => clearInterval(clearTimer);
+  }, []);
 
   return (
     <section
       id="home"
       className="relative flex flex-col items-center justify-center min-h-screen w-full max-w-full overflow-hidden"
     >
-      {/* Background image */}
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/bg-floral.jpg')" }}
-        aria-hidden="true"
-      />
-      {/* Overlay */}
-      <div className="absolute inset-0 z-0 bg-black/92" aria-hidden="true" />
-      {/* Spray trail canvas */}
-      <div
-        ref={trailRef}
-        className="absolute inset-0 z-30"
-        style={{ pointerEvents: "none" }}
-      />
-      <div className="relative z-20 flex flex-col items-center justify-center w-full min-h-screen text-center px-4 sm:px-6 py-20 max-w-6xl mx-auto">
-        <img
-          src="/images/artout-logo.png"
-          alt="ArtOut Logo"
-          className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mb-4 sm:mb-6 object-contain"
+      {backgroundImages.map((imgUrl, index) => (
+        <div
+          key={imgUrl + index}
+          className="absolute inset-0 z-0 bg-cover bg-center transition-opacity duration-1000"
+          style={{
+            backgroundImage: `url('${imgUrl}')`,
+            opacity: index === currentBg ? 1 : 0,
+          }}
+          aria-hidden="true"
         />
-        <h1 className="text-4xl sm:text-5xl md:text-6xl text-white font-artout mb-3 sm:mb-4 transition-all duration-500 max-w-full">
+      ))}
+
+      <div className="absolute inset-0 z-10 bg-black/70" aria-hidden="true" />
+
+      {/* Tiny Clear button: top-right corner of the hero (click to clear canvas) */}
+      <button
+        onClick={() => canvasRef.current?.clear()}
+        title="Clear spray"
+        aria-label="Clear spray"
+        className="absolute top-3 right-3 z-[990] p-2 rounded-full bg-black/50 hover:bg-black/70 text-white shadow-sm backdrop-blur-sm transition pointer-events-auto"
+      >
+        {/* simple trash icon */}
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M3 6h18"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M10 11v6"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M14 11v6"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      <GraffitiCanvas
+        ref={canvasRef}
+        className="absolute inset-0 z-20"
+        brushSize={spraySize}
+      />
+
+      <div className="relative z-30 flex flex-col items-center justify-center w-full min-h-screen text-center px-4 sm:px-6 py-20 max-w-6xl mx-auto pointer-events-none">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl text-white font-artout mb-3 sm:mb-4 transition-all duration-500 max-w-full drop-shadow-lg">
           ArtOut
         </h1>
-        <p className="mt-2 text-lg sm:text-xl md:text-2xl text-white/90 font-semibold font-sunda mb-3 sm:mb-4">
+        <p className="mt-2 text-lg sm:text-xl md:text-2xl text-white/90 font-semibold font-sunda mb-3 sm:mb-4 drop-shadow-md">
           Graffiti & Street Art Around the World
         </p>
-        <p className="mt-2 max-w-lg sm:max-w-xl md:max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed text-white/80 font-akadylan mb-6 sm:mb-8 text-center">
+        <p className="mt-2 max-w-lg sm:max-w-xl md:max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed text-white/80 font-akadylan mb-6 sm:mb-8 text-center drop-shadow">
           Discover, capture, and share the world's most vibrant street art—live
-          and on location. ArtOut lets you instantly snap and geotag graffiti,
-          murals, and urban art wherever you find it. No uploads, no filters, no
-          barriers—just real art, mapped in real time.
+          and on location.
         </p>
         <a
           href="#features"
-          className="inline-block bg-pink-600 text-white font-sunda font-bold px-6 sm:px-8 py-2 sm:py-3 rounded-full shadow-lg hover:bg-yellow-400 hover:text-black transition-colors duration-300 text-sm sm:text-base md:text-lg mt-2"
+          className="inline-block bg-pink-600 text-white font-sunda font-bold px-6 sm:px-8 py-2 sm:py-3 rounded-full shadow-lg hover:bg-yellow-400 hover:text-black transition-colors duration-300 text-sm sm:text-base md:text-lg mt-2 pointer-events-auto"
         >
           Explore Features
         </a>
       </div>
-      {/* Arrow with better positioning */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-30 bottom-8 sm:bottom-12 md:bottom-16 hidden sm:block hide-on-short">
+
+      <div className="absolute left-1/2 -translate-x-1/2 z-30 bottom-8 sm:bottom-12 md:bottom-16 hidden sm:block hide-on-short pointer-events-none">
         <span className="text-white text-xl sm:text-2xl md:text-3xl animate-bounce drop-shadow-lg">
           ↓
         </span>
       </div>
-      {/* Section divider */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent pointer-events-none" />
     </section>
   );

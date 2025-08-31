@@ -20,7 +20,6 @@ export const galleryData = [
 		images: [
 			"/images/gallery/classic-1.jpg",
 			"/images/gallery/classic-2.jpg",
-			"/images/gallery/classic-3.jpg",
 			"/images/gallery/classic-4.jpg",
 		],
 		alt: "Classic Graffiti",

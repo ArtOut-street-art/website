@@ -16,23 +16,71 @@ export default function About() {
           ephemeral culture survives repaint, buff or demolition. See cities
           through their walls—and help build the living archive.
         </p>
-        <div className="bg-[#23232b] rounded-xl p-8 shadow-lg max-w-3xl mx-auto">
-          <h3 className="text-xl md:text-2xl font-semibold text-gray-200 mb-4">
-            Why It Matters
-          </h3>
-          <ul className="text-xs sm:text-sm text-gray-400 space-y-2">
-            <li>
-              • Ephemeral culture fades fast; lightweight capture extends life.
-            </li>
-            <li>• A bottom‑up atlas: built by walkers, riders, wanderers.</li>
-            <li>
-              • Context + coordinates &gt; algorithmic noise & endless scroll.
-            </li>
-          </ul>
-          <p className="mt-6 text-pink-300 text-xs sm:text-sm italic">
-            Snap • Pin • Preserve. #ArtOut #StreetArt #UrbanCulture
-          </p>
+
+        {/* Redesigned "Why It Matters" as three blocks with images */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="panel p-0 overflow-hidden">
+            <div className="aspect-16-9 w-full">
+              <img
+                src="/images/gallery/nature-3.jpg"
+                alt="Preservation example"
+                className="img-cover"
+              />
+            </div>
+            <div className="p-5 text-left">
+              <h3 className="text-lg font-semibold text-gray-100 mb-2">
+                Preserve What Fades
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Capture ephemeral walls the moment you find them — a lasting
+                record of form, texture and place before repaint or removal.
+              </p>
+            </div>
+          </div>
+
+          <div className="panel p-0 overflow-hidden">
+            <div className="aspect-16-9 w-full">
+              <img
+                src="/images/gallery/modern-3.jpg"
+                alt="Community atlas example"
+                className="img-cover"
+              />
+            </div>
+            <div className="p-5 text-left">
+              <h3 className="text-lg font-semibold text-gray-100 mb-2">
+                A Bottom‑Up Atlas
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Built by walkers and wanderers — discover authentic finds mapped
+                in real time across neighborhoods and cities.
+              </p>
+            </div>
+          </div>
+
+          <div className="panel p-0 overflow-hidden">
+            <div className="aspect-16-9 w-full">
+              <img
+                src="/images/gallery/abstract-1.jpg"
+                alt="Context & location example"
+                className="img-cover"
+              />
+            </div>
+            <div className="p-5 text-left">
+              <h3 className="text-lg font-semibold text-gray-100 mb-2">
+                Context Matters
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Each capture includes coordinates and a timestamp — context that
+                keeps the story of the wall intact for researchers and lovers of
+                street culture.
+              </p>
+            </div>
+          </div>
         </div>
+
+        <p className="mt-8 text-pink-300 text-xs sm:text-sm italic">
+          Snap • Pin • Preserve. #ArtOut #StreetArt #UrbanCulture
+        </p>
         <div className="h-px bg-gradient-to-r from-transparent via-gray-700/40 to-transparent mt-14" />
       </div>
     </section>
