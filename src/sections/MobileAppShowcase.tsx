@@ -1,6 +1,6 @@
-import mobileImage from "/images/mobile-image.png";
-import mobileMap from "/images/mobile-map.png";
-import mobileTour from "/images/mobile-tour.png";
+import mobileImage from "/images/mobile-image.jpg";
+import mobileMap from "/images/mobile-map.jpg";
+import mobileTour from "/images/mobile-tour.jpg";
 
 const mobileAppImages = [
   {

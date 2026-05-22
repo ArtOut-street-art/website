@@ -6,7 +6,7 @@ export default function Footer() {
         <div className="flex flex-col items-center sm:items-start col-span-full sm:col-span-1">
           <div className="flex items-center gap-2 mb-2">
             <img
-              src="/images/artout-logo.png"
+              src="/images/artout-logo.jpg"
               alt="ArtOut Logo"
               className="w-6 h-6 sm:w-8 sm:h-8 object-contain flex-shrink-0"
             />

@@ -11,7 +11,7 @@ export default function Navbar() {
           className="flex items-center gap-2 min-w-0 flex-shrink-0"
         >
           <img
-            src="/images/artout-logo.png"
+            src="/images/artout-logo.jpg"
             alt="ArtOut Logo"
             className="w-8 h-8 sm:w-10 sm:h-10 object-contain flex-shrink-0"
           />
@@ -34,30 +34,35 @@ export default function Navbar() {
           <div className="flex flex-col md:flex-row md:space-x-4 lg:space-x-6 text-white text-sm md:text-base px-4 md:px-0 py-3 md:py-0 justify-center md:justify-end items-center space-y-2 md:space-y-0">
             <a
               href="#home"
+              onClick={() => setOpen(false)}
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Home
             </a>
             <a
               href="#features"
+              onClick={() => setOpen(false)}
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Features
             </a>
             <a
               href="#about"
+              onClick={() => setOpen(false)}
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               About
             </a>
             <a
               href="#map"
+              onClick={() => setOpen(false)}
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Map
             </a>
             <a
               href="#gallery"
+              onClick={() => setOpen(false)}
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Gallery
@@ -65,6 +70,7 @@ export default function Navbar() {
 
             <a
               href="#contact"
+              onClick={() => setOpen(false)}
               className="hover:text-pink-400 transition-colors duration-200 py-2 md:py-0"
             >
               Contact
